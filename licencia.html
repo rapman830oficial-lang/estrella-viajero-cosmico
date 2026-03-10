@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Licencia Oficial del Gremio</title>
+
+<style>
+
+body{
+
+margin:0;
+font-family:'Georgia', serif;
+
+background:#1e1b16;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+height:100vh;
+color:white;
+
+}
+
+/* TARJETA */
+
+.tarjeta{
+
+width:380px;
+height:230px;
+
+background:linear-gradient(135deg,#d6b55b,#8b6f47);
+
+border-radius:20px;
+
+padding:20px;
+
+box-shadow:0 0 30px rgba(255,215,0,0.6);
+
+position:relative;
+
+color:#2b1c0f;
+
+overflow:hidden;
+
+animation:aparecer 1s ease;
+
+}
+
+/* ANIMACION */
+
+@keyframes aparecer{
+
+from{
+transform:scale(0.8);
+opacity:0;
+}
+
+to{
+transform:scale(1);
+opacity:1;
+}
+
+}
+
+/* SELLO */
+
+.sello{
+
+position:absolute;
+
+top:10px;
+right:15px;
+
+width:65px;
+
+filter:drop-shadow(0 0 6px gold);
+
+}
+
+/* TITULO */
+
+.tarjeta h2{
+
+text-align:center;
+margin:0;
+
+}
+
+/* INFO */
+
+.info{
+
+margin-top:15px;
+font-size:14px;
+line-height:1.6;
+
+}
+
+/* CODIGO */
+
+.codigo{
+
+position:absolute;
+bottom:15px;
+right:20px;
+
+font-size:12px;
+font-weight:bold;
+
+}
+
+/* BOTON */
+
+button{
+
+margin-top:30px;
+
+padding:12px 30px;
+
+font-size:16px;
+font-weight:bold;
+
+background:gold;
+
+border:none;
+
+border-radius:10px;
+
+cursor:pointer;
+
+transition:0.3s;
+
+}
+
+button:hover{
+
+transform:scale(1.08);
+
+box-shadow:0 0 15px gold;
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div>
+
+<div class="tarjeta">
+
+<h2>Licencia Oficial del Gremio</h2>
+
+<img src="sello.png" class="sello">
+
+<div class="info">
+
+<strong>Nombre:</strong> <span id="nombre"></span><br>
+
+<strong>Magia:</strong> <span id="magia"></span><br>
+
+<strong>Número de Aventurero:</strong> <span id="numero"></span><br>
+
+<strong>Rango:</strong> <span id="rango"></span><br>
+
+<strong>Rol:</strong> <span id="rol"></span><br>
+
+<strong>Título:</strong> Aventurero del Gremio
+
+</div>
+
+<div class="codigo" id="codigo"></div>
+
+</div>
+
+<div style="text-align:center;">
+
+<button onclick="iniciarAventura()">Iniciar Aventura</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* CARGAR DATOS */
+
+let nombre = localStorage.getItem("nombreJugador");
+let magia = localStorage.getItem("magiaJugador");
+let puntos = parseInt(localStorage.getItem("puntosJugador")) || 0;
+
+if(!nombre || !magia){
+
+alert("Error: datos no encontrados.");
+
+window.location.href="index.html";
+
+}
+
+/* RANGO */
+
+let rango="";
+
+if(puntos<=30) rango="F";
+else if(puntos<=45) rango="E";
+else if(puntos<=60) rango="D";
+else if(puntos<=75) rango="C";
+else if(puntos<=90) rango="B";
+else if(puntos<=105) rango="A";
+else if(puntos<=115) rango="S";
+else rango="SS";
+
+/* ROL */
+
+let rol="";
+
+if(magia==="Fuego" || magia==="Rayo") rol="Atacante";
+else if(magia==="Agua" || magia==="Luz") rol="Soporte";
+else if(magia==="Tierra" || magia==="Hielo") rol="Defensor";
+else rol="Especialista";
+
+/* NUMERO AVENTURERO */
+
+let numero = localStorage.getItem("numeroAventurero");
+
+if(!numero){
+
+numero="ADV-"+Math.floor(100000+Math.random()*900000);
+
+localStorage.setItem("numeroAventurero",numero);
+
+}
+
+/* MOSTRAR */
+
+document.getElementById("nombre").textContent=nombre;
+document.getElementById("magia").textContent=magia;
+document.getElementById("numero").textContent=numero;
+document.getElementById("rango").textContent=rango;
+document.getElementById("rol").textContent=rol;
+document.getElementById("codigo").textContent=numero;
+
+/* GUARDAR LICENCIA */
+
+localStorage.setItem("licenciaCreada","si");
+
+/* BOTON */
+
+function iniciarAventura(){
+
+window.location.href="inicio2.html";
+
+}
+
+</script>
+
+</body>
+</html>

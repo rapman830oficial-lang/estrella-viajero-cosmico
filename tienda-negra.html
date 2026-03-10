@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Tienda Negra</title>
+
+<style>
+
+/* ===== MENU ===== */
+
+.menu-toggle{
+position:fixed;
+top:20px;
+left:20px;
+font-size:28px;
+cursor:pointer;
+color:red;
+z-index:1001;
+}
+
+.sidebar{
+position:fixed;
+top:0;
+left:-320px;
+width:300px;
+height:100%;
+background:#0b0000;
+border-right:3px solid red;
+padding-top:80px;
+transition:.35s;
+z-index:1000;
+}
+
+.sidebar.active{
+left:0;
+}
+
+.sidebar button{
+display:block;
+width:85%;
+margin:15px auto;
+padding:12px;
+font-size:18px;
+background:linear-gradient(45deg,#440000,#880000);
+border:none;
+border-radius:10px;
+cursor:pointer;
+font-weight:bold;
+color:white;
+}
+
+.submenu{
+display:none;
+margin-left:20px;
+}
+
+.submenu button{
+font-size:15px;
+padding:8px;
+}
+
+/* ===== BODY ===== */
+
+body{
+margin:0;
+font-family:Georgia,serif;
+background:#090000;
+color:#ffdddd;
+text-align:center;
+}
+
+h1{
+color:red;
+margin-top:40px;
+}
+
+/* ===== GRID ===== */
+
+.grid{
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:20px;
+max-width:900px;
+margin:40px auto;
+}
+
+/* ===== CUADROS ===== */
+
+.cuadro{
+height:130px;
+background:rgba(0,0,0,0.8);
+border:3px solid #660000;
+border-radius:15px;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+transition:.25s;
+}
+
+.cuadro:hover{
+transform:scale(1.05);
+border-color:red;
+}
+
+/* BLOQUEADO */
+
+.bloqueado{
+opacity:.4;
+cursor:not-allowed;
+}
+
+.candado{
+font-size:30px;
+}
+
+/* TEXTO */
+
+.nombre{
+margin-top:5px;
+font-size:14px;
+}
+
+.precio{
+font-size:12px;
+color:#ff7777;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+<div class="sidebar" id="sidebar">
+
+<button onclick="ir('inicio2.html')">Inicio</button>
+
+<button onclick="toggleTienda()">Tienda ▾</button>
+
+<div class="submenu" id="submenuTienda">
+<button onclick="ir('tienda-mascotas.html')">Mascotas</button>
+<button onclick="ir('tienda-objetos.html')">Objetos</button>
+<button onclick="ir('tienda-venta.html')">Venta</button>
+<button onclick="ir('tienda-negra.html')">Tienda Negra</button>
+</div>
+
+<button onclick="toggleEquipar()">Equipar ▾</button>
+
+<div class="submenu" id="submenuEquipar">
+<button onclick="ir('equipar-mascota.html')">Mascota</button>
+<button onclick="ir('equipar-titulo.html')">Título</button>
+</div>
+
+<button onclick="ir('titulos.html')">Guía de Títulos</button>
+
+<button onclick="ir('clasificacion.html')">Clasificación</button>
+
+<button onclick="ir('creditos.html')">Créditos</button>
+
+</div>
+
+<h1>🩸 Tienda Negra</h1>
+
+<h3>Solo los aventureros más oscuros compran aquí...</h3>
+
+<div class="grid" id="gridTienda"></div>
+
+<script>
+
+/* ===== MENU ===== */
+
+function toggleMenu(){
+document.getElementById("sidebar").classList.toggle("active");
+}
+
+function toggleEquipar(){
+let menu=document.getElementById("submenuEquipar");
+menu.style.display = menu.style.display==="block"?"none":"block";
+}
+
+function toggleTienda(){
+let menu=document.getElementById("submenuTienda");
+menu.style.display = menu.style.display==="block"?"none":"block";
+}
+
+function ir(pagina){
+
+if(window.location.pathname.includes(pagina)){
+return;
+}
+
+window.location.href=pagina;
+
+}
+
+/* ===== MASCOTAS TIENDA NEGRA ===== */
+
+let mascotas=[
+
+{nombre:"Fenrir",precio:500},
+
+{nombre:"Mujer Demonio Zorra",precio:800},
+
+{nombre:"Mujer Demonio Gato",precio:800},
+
+{nombre:"Mujer Demonio Loba",precio:800},
+
+{nombre:"Mujer Demonio",precio:1200}
+
+];
+
+/* ===== INVENTARIO ===== */
+
+let inventario=JSON.parse(localStorage.getItem("inventarioMascotas")) || [];
+
+/* ===== GRID ===== */
+
+let grid=document.getElementById("gridTienda");
+
+mascotas.forEach(m=>{
+
+let cuadro=document.createElement("div");
+
+cuadro.classList.add("cuadro");
+
+let tienes=inventario.includes(m.nombre);
+
+/* SI YA LO TIENE */
+
+if(tienes){
+
+cuadro.classList.add("bloqueado");
+
+cuadro.innerHTML=`
+<div class="candado">✔</div>
+<div class="nombre">${m.nombre}</div>
+<div class="precio">Ya comprado</div>
+`;
+
+}
+
+/* SI NO LO TIENE */
+
+else{
+
+cuadro.innerHTML=`
+<div>😈</div>
+<div class="nombre">${m.nombre}</div>
+<div class="precio">${m.precio} monedas</div>
+`;
+
+cuadro.onclick=()=>comprar(m);
+
+}
+
+grid.appendChild(cuadro);
+
+});
+
+/* ===== COMPRAR ===== */
+
+function comprar(m){
+
+if(inventario.includes(m.nombre)){
+return;
+}
+
+inventario.push(m.nombre);
+
+localStorage.setItem("inventarioMascotas",JSON.stringify(inventario));
+
+alert("Has comprado: "+m.nombre);
+
+location.reload();
+
+}
+
+</script>
+
+</body>
+</html>

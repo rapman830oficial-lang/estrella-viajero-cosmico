@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Guía de Títulos</title>
+
+<style>
+
+/* ===== MENU ===== */
+
+.menu-toggle{
+position:fixed;
+top:20px;
+left:20px;
+font-size:28px;
+cursor:pointer;
+color:gold;
+z-index:1001;
+}
+
+.sidebar{
+position:fixed;
+top:0;
+left:-320px;
+width:300px;
+height:100%;
+background:#14110d;
+border-right:3px solid gold;
+padding-top:80px;
+transition:.35s;
+z-index:1000;
+}
+
+.sidebar.active{
+left:0;
+}
+
+.sidebar button{
+display:block;
+width:85%;
+margin:15px auto;
+padding:12px;
+font-size:18px;
+background:linear-gradient(45deg,gold,darkgoldenrod);
+border:none;
+border-radius:10px;
+cursor:pointer;
+font-weight:bold;
+color:#2b1c0f;
+}
+
+.submenu{
+display:none;
+margin-left:20px;
+}
+
+.submenu button{
+font-size:15px;
+padding:8px;
+}
+
+/* ===== BODY ===== */
+
+body{
+margin:0;
+font-family:Georgia,serif;
+background:#1e1b16;
+color:#f5e6c8;
+text-align:center;
+}
+
+h1{
+color:gold;
+margin-top:40px;
+}
+
+/* ===== LISTA ===== */
+
+.lista{
+max-width:800px;
+margin:40px auto;
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+/* ===== TITULO ===== */
+
+.titulo{
+background:rgba(0,0,0,0.6);
+border:3px solid #8b6f47;
+border-radius:12px;
+padding:12px;
+cursor:pointer;
+text-align:left;
+transition:.2s;
+}
+
+.titulo:hover{
+background:rgba(0,0,0,0.8);
+}
+
+.nombre{
+color:gold;
+font-size:18px;
+}
+
+/* ===== DESCRIPCION ===== */
+
+.descripcion{
+display:none;
+margin-top:10px;
+font-size:14px;
+background:rgba(0,0,0,0.4);
+padding:10px;
+border-radius:8px;
+}
+
+.titulo.activo .descripcion{
+display:block;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+<div class="sidebar" id="sidebar">
+
+<button onclick="ir('inicio2.html')">Inicio</button>
+
+<button onclick="toggleTienda()">Tienda ▾</button>
+
+<div class="submenu" id="submenuTienda">
+<button onclick="ir('tienda-mascotas.html')">Mascotas</button>
+<button onclick="ir('tienda-objetos.html')">Objetos</button>
+<button onclick="ir('tienda-venta.html')">Venta</button>
+<button onclick="ir('tienda-negra.html')">Tienda Negra</button>
+</div>
+
+<button onclick="toggleEquipar()">Equipar ▾</button>
+
+<div class="submenu" id="submenuEquipar">
+<button onclick="ir('equipar-mascota.html')">Mascota</button>
+<button onclick="ir('equipar-titulo.html')">Título</button>
+</div>
+
+<button onclick="ir('titulos.html')">Títulos</button>
+
+<button onclick="ir('clasificacion.html')">Clasificación</button>
+
+<button onclick="ir('creditos.html')">Créditos</button>
+
+</div>
+
+<h1>📜 Guía de Títulos</h1>
+
+<div class="lista" id="listaTitulos"></div>
+
+<script>
+
+/* ===== MENU ===== */
+
+function toggleMenu(){
+document.getElementById("sidebar").classList.toggle("active");
+}
+
+function toggleEquipar(){
+let menu=document.getElementById("submenuEquipar");
+menu.style.display = menu.style.display==="block"?"none":"block";
+}
+
+function toggleTienda(){
+let menu=document.getElementById("submenuTienda");
+menu.style.display = menu.style.display==="block"?"none":"block";
+}
+
+function ir(pagina){
+
+if(window.location.pathname.includes(pagina)){
+return;
+}
+
+window.location.href=pagina;
+
+}
+
+/* ===== TITULOS ===== */
+let titulos=[
+
+["Matador de Slime","Matar 50 Slimes"],
+["Cazador de Lobos","Matar 50 Lobos"],
+["Exterminador de Arañas","Matar 50 Arañas"],
+["Matador de Bestias","Matar 100 monstruos de cualquier tipo"],
+
+["Cazador de Demonios","Matar 200 demonios de cualquier tipo"],
+["Cazador de Slime Demonio","Matar 50 Slime Demonio"],
+["Cazador de Lobo Demonio","Matar 50 Lobo Demonio"],
+["Cazador de Araña Demonio","Matar 50 Araña Demonio"],
+
+["Cazador de Dragón Rojo","Matar 1 Dragón Rojo"],
+["Cazador de Dragón Negro","Matar 1 Dragón Negro"],
+["Matador de Dragones","Matar un Dragón de cada tipo"],
+
+["Mazmorra Final","Terminar la última mazmorra"],
+["Matador Profesional","Matar 500 monstruos"],
+
+["Aventurero del Gremio","Se obtiene al crear la licencia"],
+
+["Comprador de Mascota","Comprar 1 mascota"],
+["Comprador de Pociones","Comprar 1 poción"],
+["Loco de las Mascotas","Comprar todas las mascotas"],
+["Loco de las Pociones","Comprar 200 pociones"],
+
+["Millonario","Tener 1000 monedas"],
+["Comprador de Tienda Oscura","Comprar algo en la tienda negra"],
+
+["Bebedor de Pociones","Beber 200 pociones"],
+
+["Invocador de Demonio","Comprar un demonio en la tienda negra"],
+["Domador de Fenrir","Comprar a Fenrir"],
+
+["Rango S","Tener rango S"],
+
+["Miembro Demoníaco","Código de amistad"],
+["ADD Demonio","Título exclusivo para administradores"],
+["Rey Demonio","Título del creador Rapman830"]
+
+];
+
+
+/* ===== CREAR MENU ===== */
+
+let lista=document.getElementById("listaTitulos");
+
+titulos.forEach(t=>{
+
+let div=document.createElement("div");
+
+div.classList.add("titulo");
+
+div.innerHTML=`
+
+<div class="nombre">• ${t[0]}</div>
+
+<div class="descripcion">
+<b>Cómo conseguirlo:</b><br>
+${t[1]}
+</div>
+
+`;
+
+div.onclick=()=>{
+
+div.classList.toggle("activo");
+
+};
+
+lista.appendChild(div);
+
+});
+
+</script>
+
+</body>
+</html>

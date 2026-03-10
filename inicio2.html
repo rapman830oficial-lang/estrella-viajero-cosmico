@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Inicio del Aventurero</title>
+
+<style>
+
+.menu-toggle{
+position:fixed;
+top:20px;
+left:20px;
+font-size:28px;
+cursor:pointer;
+z-index:1001;
+color:gold;
+}
+
+.sidebar{
+position:fixed;
+top:0;
+left:-320px;
+width:300px;
+height:100%;
+background:#14110d;
+border-right:3px solid gold;
+padding-top:80px;
+transition:0.35s;
+z-index:1000;
+}
+
+.sidebar.active{
+left:0;
+}
+
+.sidebar button{
+display:block;
+width:85%;
+margin:15px auto;
+padding:12px;
+font-size:18px;
+background:linear-gradient(45deg,gold,darkgoldenrod);
+border:none;
+border-radius:10px;
+cursor:pointer;
+font-weight:bold;
+color:#2b1c0f;
+}
+
+.submenu{
+display:none;
+margin-left:20px;
+}
+
+.submenu button{
+font-size:15px;
+padding:8px;
+}
+
+body{
+margin:0;
+font-family:'Georgia', serif;
+background:#1e1b16;
+color:#f5e6c8;
+text-align:center;
+}
+
+.burbuja{
+max-width:800px;
+margin:40px auto;
+padding:30px;
+background:rgba(255,255,255,0.08);
+border:3px solid #8b6f47;
+border-radius:25px;
+backdrop-filter:blur(6px);
+}
+
+.nombre-jugador{
+font-size:45px;
+color:gold;
+text-shadow:0 0 15px gold;
+}
+
+.gremio{
+margin-top:15px;
+font-size:22px;
+letter-spacing:2px;
+color:gold;
+}
+
+.info-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+text-align:left;
+margin-top:20px;
+font-size:18px;
+}
+
+.info-grid div{
+background:rgba(0,0,0,0.4);
+padding:12px;
+border-radius:10px;
+}
+
+.panel-inferior{
+display:flex;
+justify-content:center;
+gap:40px;
+margin:40px auto;
+max-width:800px;
+flex-wrap:wrap;
+}
+
+.boton-jugar button{
+padding:15px 50px;
+font-size:20px;
+background:linear-gradient(45deg,gold,darkgoldenrod);
+border:none;
+border-radius:15px;
+cursor:pointer;
+font-weight:bold;
+color:#2b1c0f;
+}
+
+.codigo-input input{
+padding:12px;
+font-size:16px;
+border-radius:10px;
+border:none;
+width:200px;
+text-align:center;
+}
+
+.codigo-input button{
+margin-top:15px;
+padding:8px 20px;
+border:none;
+border-radius:10px;
+background:gold;
+cursor:pointer;
+font-weight:bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+<div class="sidebar" id="sidebar">
+
+<button onclick="ir('inicio2.html')">Inicio</button>
+
+<button onclick="toggleTienda()">Tienda ▾</button>
+
+<div class="submenu" id="submenuTienda">
+<button onclick="ir('tienda-mascotas.html')">Mascotas</button>
+<button onclick="ir('tienda-objetos.html')">Objetos</button>
+<button onclick="ir('tienda-venta.html')">Venta</button>
+<button onclick="ir('tienda-negra.html')">Tienda Negra</button>
+</div>
+
+<button onclick="toggleEquipar()">Equipar ▾</button>
+
+<div class="submenu" id="submenuEquipar">
+<button onclick="ir('equipar-mascota.html')">Mascota</button>
+<button onclick="ir('equipar-titulo.html')">Título</button>
+</div>
+
+<button onclick="ir('titulos.html')">Títulos</button>
+<button onclick="ir('clasificacion.html')">Clasificación</button>
+<button onclick="ir('creditos.html')">Créditos</button>
+
+</div>
+
+<div class="burbuja">
+
+<div class="nombre-jugador" id="nombreJugador"></div>
+
+<div class="gremio">
+⚜ Gremio Estrella Viajero Cósmico ⚜
+</div>
+
+</div>
+
+<div class="burbuja">
+
+<div class="info-grid">
+
+<div><strong>Nombre:</strong> <span id="nombre"></span></div>
+<div><strong>Magia:</strong> <span id="magia"></span></div>
+
+<div><strong>Rol:</strong> <span id="rol"></span></div>
+<div><strong>Número:</strong> <span id="numero"></span></div>
+
+<div><strong>Título:</strong> <span id="titulo"></span></div>
+<div><strong>Rango:</strong> <span id="rango"></span></div>
+
+<div><strong>Mascota:</strong> <span id="animal"></span></div>
+<div><strong>Monedas:</strong> <span id="monedas"></span></div>
+
+</div>
+
+</div>
+
+<div class="panel-inferior">
+
+<div class="burbuja boton-jugar">
+<button onclick="ir('mazmorras.html')">⚔ Jugar ⚔</button>
+</div>
+
+<div class="burbuja codigo-input">
+
+<h3>Canjear Código</h3>
+
+<input type="text" id="codigo" placeholder="Ingresa tu código">
+
+<br>
+
+<button onclick="canjearCodigo()">Canjear</button>
+
+</div>
+
+</div>
+
+<script>
+
+/* MENU */
+
+function toggleMenu(){
+document.getElementById("sidebar").classList.toggle("active");
+}
+
+function toggleEquipar(){
+let menu=document.getElementById("submenuEquipar");
+menu.style.display = menu.style.display==="block"?"none":"block";
+}
+
+function toggleTienda(){
+let menu=document.getElementById("submenuTienda");
+menu.style.display = menu.style.display==="block"?"none":"block";
+}
+
+function ir(pagina){
+if(window.location.pathname.includes(pagina)) return;
+window.location.href=pagina;
+}
+
+/* DATOS JUGADOR */
+
+let nombre=localStorage.getItem("nombreJugador");
+let magia=localStorage.getItem("magiaJugador");
+let puntos=parseInt(localStorage.getItem("puntosJugador"));
+let numero=localStorage.getItem("numeroAventurero");
+
+let titulo=localStorage.getItem("tituloJugador") || "Aventurero del Gremio";
+let animal=localStorage.getItem("mascotaEquipada") || "Ninguna";
+let monedas=parseInt(localStorage.getItem("monedasJugador")) || 0;
+
+/* RANGO */
+
+let rango="F";
+
+if(puntos>30) rango="D";
+if(puntos>50) rango="C";
+if(puntos>65) rango="B";
+if(puntos>75) rango="A";
+if(puntos>85) rango="S";
+if(puntos>95) rango="SS";
+
+/* ROL */
+
+let rol="Especialista";
+
+if(magia==="Fuego"||magia==="Rayo") rol="Atacante";
+if(magia==="Agua"||magia==="Luz") rol="Soporte";
+if(magia==="Tierra"||magia==="Hielo") rol="Defensor";
+
+/* MOSTRAR */
+
+document.getElementById("nombreJugador").textContent=nombre;
+document.getElementById("nombre").textContent=nombre;
+document.getElementById("magia").textContent=magia;
+document.getElementById("numero").textContent=numero;
+document.getElementById("rango").textContent=rango;
+document.getElementById("rol").textContent=rol;
+document.getElementById("titulo").textContent=titulo;
+document.getElementById("animal").textContent=animal;
+document.getElementById("monedas").textContent=monedas;
+
+/* CODIGOS */
+
+function canjearCodigo(){
+
+let codigo=document.getElementById("codigo").value.trim();
+
+let inventarioTitulos=JSON.parse(localStorage.getItem("inventarioTitulos")) || [];
+
+function darTitulo(t){
+
+if(!inventarioTitulos.includes(t)){
+inventarioTitulos.push(t);
+}
+
+localStorage.setItem("inventarioTitulos",JSON.stringify(inventarioTitulos));
+localStorage.setItem("tituloJugador",t);
+
+document.getElementById("titulo").textContent=t;
+
+}
+
+/* REY DEMONIO */
+
+if(codigo==="Rapman830_Rey_demonio"){
+
+if(localStorage.getItem("codigoReyDemonioUsado")){
+alert("Este código ya fue utilizado.");
+return;
+}
+
+monedas+=1000000000;
+
+localStorage.setItem("monedasJugador",monedas);
+localStorage.setItem("codigoReyDemonioUsado","si");
+
+darTitulo("Rey Demonio");
+
+document.getElementById("monedas").textContent=monedas;
+
+alert("🔥 Título secreto desbloqueado 🔥");
+
+}
+
+/* MIEMBRO DEMONIACO */
+
+else if(codigo==="DEMON_MEMBER"){
+
+if(localStorage.getItem("codigoMiembroDemonio")){
+alert("Este código ya fue utilizado.");
+return;
+}
+
+monedas+=5000;
+
+localStorage.setItem("monedasJugador",monedas);
+localStorage.setItem("codigoMiembroDemonio","si");
+
+darTitulo("Miembro Demoníaco");
+
+document.getElementById("monedas").textContent=monedas;
+
+alert("😈 Código activado: +5000 monedas");
+
+}
+
+/* ADD DEMONIO */
+
+else if(codigo==="ADD_DEMON"){
+
+if(localStorage.getItem("codigoAddDemon")){
+alert("Este código ya fue utilizado.");
+return;
+}
+
+monedas+=1000;
+
+localStorage.setItem("monedasJugador",monedas);
+localStorage.setItem("codigoAddDemon","si");
+
+darTitulo("ADD Demonio");
+
+document.getElementById("monedas").textContent=monedas;
+
+alert("👹 Código activado: +1000 monedas");
+
+}
+
+/* GLOBAL */
+
+else if(codigo==="ESTRELLA_GLOBAL"){
+
+if(localStorage.getItem("codigoGlobalUsado")){
+alert("Este código ya fue utilizado.");
+return;
+}
+
+monedas+=1000;
+
+localStorage.setItem("monedasJugador",monedas);
+localStorage.setItem("codigoGlobalUsado","si");
+
+document.getElementById("monedas").textContent=monedas;
+
+alert("⭐ Código global activado ⭐");
+
+}
+
+else{
+
+alert("Código inválido.");
+
+}
+
+}
+
+</script>
+
+</body>
+</html>

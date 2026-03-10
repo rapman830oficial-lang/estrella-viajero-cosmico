@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Examen de Ingreso - Gremio</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family:'Georgia', serif;
+
+    background:
+    linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
+    url("fondo.jpg");
+
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+
+    color:#3b2b15;
+}
+
+/* CONTENEDOR */
+
+.contenedor{
+
+    max-width:900px;
+    margin:40px auto;
+    padding:60px 40px;
+
+    text-align:center;
+
+    background:url("pergamino.png");
+    background-size:100% 100%;
+    background-repeat:no-repeat;
+
+}
+
+/* TITULOS */
+
+h1{
+    font-size:45px;
+    margin-bottom:30px;
+}
+
+h2{
+    margin-top:20px;
+}
+
+/* INPUTS */
+
+input, select{
+
+    width:80%;
+    padding:10px;
+
+    font-size:16px;
+
+    border-radius:6px;
+    border:1px solid #aaa;
+
+    margin:10px 0 20px 0;
+
+}
+
+/* GRID PREGUNTAS */
+
+.preguntas-grid{
+
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:30px;
+
+    margin-top:30px;
+
+}
+
+/* BOTON */
+
+button{
+
+    margin-top:40px;
+
+    padding:15px 40px;
+
+    font-size:18px;
+    font-weight:bold;
+
+    background:linear-gradient(45deg,gold,darkgoldenrod);
+
+    border:none;
+    border-radius:10px;
+
+    cursor:pointer;
+
+    transition:0.3s;
+
+}
+
+button:hover{
+
+    transform:scale(1.05);
+    box-shadow:0 0 10px gold;
+
+}
+
+/* RESPONSIVE */
+
+@media (max-width:700px){
+
+.preguntas-grid{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<div class="contenedor">
+
+<h1>⚔ Examen Oficial del Gremio ⚔</h1>
+
+<form id="formulario">
+
+<h2>📜 Registro del Aventurero</h2>
+
+<label>Nombre del Aventurero</label><br>
+
+<input type="text" id="nombreJugador" required>
+
+<label>Tipo de Magia</label><br>
+
+<select id="magiaJugador" required>
+
+<option value="">Selecciona tu magia</option>
+<option value="Fuego">🔥 Fuego</option>
+<option value="Agua">💧 Agua</option>
+<option value="Tierra">🌱 Tierra</option>
+<option value="Luz">✨ Luz</option>
+<option value="Rayo">⚡ Rayo</option>
+<option value="Hielo">❄ Hielo</option>
+
+</select>
+
+
+<div class="preguntas-grid">
+
+<h3>Un dragón oscuro aparece frente a ti.</h3>
+<select class="respuesta" required>
+<option value="">Elige tu acción</option>
+<option value="4">Observo sus movimientos antes de atacar</option>
+<option value="3">Protejo a los demás primero</option>
+<option value="2">Corro hacia él sin pensar</option>
+<option value="1">Retrocedo lentamente</option>
+</select>
+
+
+<h3>Un cofre antiguo vibra con energía mágica.</h3>
+<select class="respuesta" required>
+<option value="">Elige tu acción</option>
+<option value="4">Busco trampas ocultas</option>
+<option value="3">Uso magia para analizarlo</option>
+<option value="2">Lo abro de golpe</option>
+<option value="1">Lo ignoro</option>
+</select>
+
+
+<h3>Un goblin intenta engañarte.</h3>
+<select class="respuesta" required>
+<option value="">Elige tu acción</option>
+<option value="4">Le sigo el juego</option>
+<option value="3">Lo interrogo</option>
+<option value="2">Lo ataco</option>
+<option value="1">Me voy</option>
+</select>
+
+
+<h3>Tu equipo pierde el rumbo en la mazmorra.</h3>
+<select class="respuesta" required>
+<option value="">Elige tu acción</option>
+<option value="4">Tomo liderazgo</option>
+<option value="3">Analizo el mapa</option>
+<option value="2">Improviso</option>
+<option value="1">Entro en pánico</option>
+</select>
+
+
+<h3>Un orco desafía tu honor.</h3>
+<select class="respuesta" required>
+<option value="">Elige tu acción</option>
+<option value="4">Estudio su estilo primero</option>
+<option value="3">Acepto el duelo</option>
+<option value="2">Ataco antes</option>
+<option value="1">Rechazo el combate</option>
+</select>
+
+</div>
+
+<button type="submit">Continuar</button>
+
+</form>
+
+</div>
+
+
+
+<script>
+
+const formulario = document.getElementById("formulario");
+
+formulario.addEventListener("submit", function(e){
+
+e.preventDefault();
+
+const nombre = document.getElementById("nombreJugador").value;
+const magia = document.getElementById("magiaJugador").value;
+
+const respuestas = document.querySelectorAll(".respuesta");
+
+let puntos = 0;
+
+respuestas.forEach(respuesta => {
+
+puntos += parseInt(respuesta.value) || 0;
+
+});
+
+localStorage.setItem("nombreJugador", nombre);
+localStorage.setItem("magiaJugador", magia);
+localStorage.setItem("puntosJugador", puntos);
+
+window.location.href = "examen2.html";
+
+});
+
+
+/* BLOQUEAR SI YA TIENE LICENCIA */
+
+if(localStorage.getItem("licenciaCreada") === "si"){
+
+window.location.href = "inicio2.html";
+
+}
+
+</script>
+
+
+</body>
+</html>

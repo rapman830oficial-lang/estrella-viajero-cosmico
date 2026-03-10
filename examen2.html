@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Examen Parte 2 - Gremio</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family:'Georgia', serif;
+
+    background:
+    linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
+    url("fondo.jpg");
+
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+
+    color:#3b2b15;
+}
+
+/* CONTENEDOR */
+
+.contenedor{
+
+    max-width:900px;
+    margin:40px auto;
+    padding:60px 40px;
+
+    text-align:center;
+
+    background:url("pergamino.png");
+    background-size:100% 100%;
+    background-repeat:no-repeat;
+
+}
+
+/* TITULO */
+
+h1{
+    font-size:45px;
+    margin-bottom:30px;
+}
+
+/* GRID */
+
+.preguntas-grid{
+
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:30px;
+
+    margin-top:30px;
+
+}
+
+/* SELECT */
+
+select{
+
+    width:100%;
+    padding:10px;
+
+    font-size:16px;
+
+    border-radius:6px;
+    border:1px solid #aaa;
+
+    margin-top:10px;
+
+}
+
+/* BOTON */
+
+button{
+
+    margin-top:50px;
+
+    padding:15px 40px;
+
+    font-size:18px;
+    font-weight:bold;
+
+    background:linear-gradient(45deg,gold,darkgoldenrod);
+
+    border:none;
+    border-radius:10px;
+
+    cursor:pointer;
+
+    transition:0.3s;
+
+}
+
+button:hover{
+
+    transform:scale(1.05);
+    box-shadow:0 0 10px gold;
+
+}
+
+/* RESPONSIVE */
+
+@media (max-width:700px){
+
+.preguntas-grid{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<div class="contenedor">
+
+<h1>⚔ Examen Oficial - Parte 2 ⚔</h1>
+
+<form id="formulario">
+
+<div class="preguntas-grid">
+
+<div>
+<h3>Te atacan por sorpresa.</h3>
+<select class="respuesta" required>
+<option value="">Elige tu acción</option>
+<option value="4">Contraataco estratégicamente</option>
+<option value="3">Bloqueo y observo</option>
+<option value="2">Golpe directo</option>
+<option value="1">Retrocedo</option>
+</select>
+</div>
+
+<div>
+<h3>Encuentras un artefacto antiguo.</h3>
+<select class="respuesta" required>
+<option value="">Elige tu acción</option>
+<option value="4">Lo analizo primero</option>
+<option value="3">Lo guardo</option>
+<option value="2">Lo uso sin pensar</option>
+<option value="1">Lo ignoro</option>
+</select>
+</div>
+
+<div>
+<h3>Un aliado cae en combate.</h3>
+<select class="respuesta" required>
+<option value="">Elige tu acción</option>
+<option value="4">Lo rescato</option>
+<option value="3">Cubrir retirada</option>
+<option value="2">Sigo luchando</option>
+<option value="1">Huyo</option>
+</select>
+</div>
+
+<div>
+<h3>Un enemigo fuerte bloquea tu paso.</h3>
+<select class="respuesta" required>
+<option value="">Elige tu acción</option>
+<option value="4">Busco su debilidad</option>
+<option value="3">Coordino equipo</option>
+<option value="2">Ataque frontal</option>
+<option value="1">Dudo</option>
+</select>
+</div>
+
+<div>
+<h3>Descubres un mapa secreto.</h3>
+<select class="respuesta" required>
+<option value="">Elige tu acción</option>
+<option value="4">Lo estudio</option>
+<option value="3">Lo comparto</option>
+<option value="2">Lo uso rápido</option>
+<option value="1">Lo ignoro</option>
+</select>
+</div>
+
+<div>
+<h3>Una bestia protege un tesoro.</h3>
+<select class="respuesta" required>
+<option value="">Elige tu acción</option>
+<option value="4">Planifico antes de atacar</option>
+<option value="3">Distracción estratégica</option>
+<option value="2">Ataque directo</option>
+<option value="1">Abandono</option>
+</select>
+</div>
+
+<div>
+<h3>Un hechizo falla en combate.</h3>
+<select class="respuesta" required>
+<option value="">Elige tu acción</option>
+<option value="4">Improviso</option>
+<option value="3">Cambio táctica</option>
+<option value="2">Insisto</option>
+<option value="1">Me frustro</option>
+</select>
+</div>
+
+<div>
+<h3>Un portal oscuro vibra frente a ti.</h3>
+<select class="respuesta" required>
+<option value="">Elige tu acción</option>
+<option value="4">Analizo su energía</option>
+<option value="3">Lanzo magia exploradora</option>
+<option value="2">Entro sin pensar</option>
+<option value="1">Lo evito</option>
+</select>
+</div>
+
+<div>
+<h3>Un compañero duda de ti.</h3>
+<select class="respuesta" required>
+<option value="">Elige tu acción</option>
+<option value="4">Lo motivo</option>
+<option value="3">Le explico el plan</option>
+<option value="2">Lo presiono</option>
+<option value="1">Lo ignoro</option>
+</select>
+</div>
+
+<div>
+<h3>Te desafían públicamente.</h3>
+<select class="respuesta" required>
+<option value="">Elige tu acción</option>
+<option value="4">Acepto con estrategia</option>
+<option value="3">Evalúo primero</option>
+<option value="2">Ataco sin pensar</option>
+<option value="1">Evito</option>
+</select>
+</div>
+
+</div>
+
+<button type="submit">Continuar al Examen Final</button>
+
+</form>
+
+</div>
+
+
+<script>
+
+const formulario = document.getElementById("formulario");
+
+formulario.addEventListener("submit", function(e){
+
+e.preventDefault();
+
+const respuestas = document.querySelectorAll(".respuesta");
+
+let nuevosPuntos = 0;
+
+respuestas.forEach(respuesta => {
+
+nuevosPuntos += parseInt(respuesta.value) || 0;
+
+});
+
+let puntosActuales = parseInt(localStorage.getItem("puntosJugador")) || 0;
+
+localStorage.setItem("puntosJugador", puntosActuales + nuevosPuntos);
+
+window.location.href = "examen3.html";
+
+});
+
+</script>
+
+
+</body>
+</html>

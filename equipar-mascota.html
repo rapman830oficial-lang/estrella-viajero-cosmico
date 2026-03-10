@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Inventario de Mascotas</title>
+
+<style>
+
+/* ===== MENU BOTON ===== */
+
+.menu-toggle{
+position:fixed;
+top:20px;
+left:20px;
+font-size:28px;
+cursor:pointer;
+z-index:1001;
+color:gold;
+}
+
+/* ===== SIDEBAR ===== */
+
+.sidebar{
+position:fixed;
+top:0;
+left:-320px;
+width:300px;
+height:100%;
+background:#14110d;
+border-right:3px solid gold;
+padding-top:80px;
+transition:0.35s;
+z-index:1000;
+}
+
+.sidebar.active{
+left:0;
+}
+
+.sidebar button{
+display:block;
+width:85%;
+margin:15px auto;
+padding:12px;
+font-size:18px;
+background:linear-gradient(45deg,gold,darkgoldenrod);
+border:none;
+border-radius:10px;
+cursor:pointer;
+font-weight:bold;
+color:#2b1c0f;
+}
+
+/* SUBMENU */
+
+.submenu{
+display:none;
+margin-left:20px;
+}
+
+.submenu button{
+font-size:15px;
+padding:8px;
+}
+
+/* ===== BODY ===== */
+
+body{
+margin:0;
+font-family:Georgia, serif;
+background:#1e1b16;
+color:#f5e6c8;
+text-align:center;
+}
+
+h1{
+color:gold;
+margin-top:30px;
+}
+
+/* GRID INVENTARIO */
+
+.grid{
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:20px;
+max-width:900px;
+margin:40px auto;
+}
+
+/* CUADROS */
+
+.cuadro{
+height:120px;
+background:rgba(0,0,0,0.5);
+border:3px solid #8b6f47;
+border-radius:15px;
+display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+cursor:pointer;
+transition:0.25s;
+}
+
+.cuadro:hover{
+transform:scale(1.05);
+}
+
+/* BLOQUEADO */
+
+.bloqueado{
+opacity:0.4;
+cursor:not-allowed;
+}
+
+.candado{
+font-size:30px;
+}
+
+/* EQUIPADO */
+
+.equipado{
+border:3px solid lime;
+box-shadow:0 0 15px lime;
+}
+
+/* TEXTO */
+
+.nombre{
+margin-top:5px;
+font-size:14px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- BOTON MENU -->
+
+<div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+<!-- SIDEBAR -->
+
+<div class="sidebar" id="sidebar">
+
+<button onclick="ir('inicio2.html')">Inicio</button>
+
+<button onclick="toggleTienda()">Tienda ▾</button>
+
+<div class="submenu" id="submenuTienda">
+<button onclick="ir('tienda-mascotas.html')">Mascotas</button>
+<button onclick="ir('tienda-objetos.html')">Objetos</button>
+<button onclick="ir('tienda-venta.html')">Venta</button>
+<button onclick="ir('tienda-negra.html')">Tienda Negra</button>
+</div>
+
+<button onclick="toggleEquipar()">Equipar ▾</button>
+
+<div class="submenu" id="submenuEquipar">
+<button onclick="ir('equipar-mascota.html')">Mascota</button>
+<button onclick="ir('equipar-titulo.html')">Título</button>
+</div>
+
+<button onclick="ir('titulos.html')">Títulos</button>
+
+<button onclick="ir('clasificacion.html')">Clasificación</button>
+
+<button onclick="ir('creditos.html')">Créditos</button>
+
+</div>
+
+<h1>🐾 Inventario de Mascotas</h1>
+
+<h3>Mascota equipada: <span id="mascotaEquipada">Ninguna</span></h3>
+
+<div class="grid" id="gridMascotas"></div>
+
+<script>
+
+/* ===== MENU ===== */
+
+function toggleMenu(){
+document.getElementById("sidebar").classList.toggle("active");
+}
+
+function toggleEquipar(){
+let menu=document.getElementById("submenuEquipar");
+menu.style.display = menu.style.display==="block"?"none":"block";
+}
+
+function toggleTienda(){
+let menu=document.getElementById("submenuTienda");
+menu.style.display = menu.style.display==="block"?"none":"block";
+}
+
+/* ===== IR A PAGINA (EVITA RECARGAR SI YA ESTAS) ===== */
+
+function ir(pagina){
+
+if(window.location.pathname.includes(pagina)){
+return;
+}
+
+window.location.href=pagina;
+
+}
+
+/* ===== TODAS LAS MASCOTAS DEL JUEGO ===== */
+
+let mascotas=[
+
+"Slime",
+"Lobo",
+"Gato",
+"Pájaro",
+"Araña",
+
+"Zorro",
+"Slime Demon",
+"Lobo Demon",
+"Gato Demon",
+"Pájaro Demon",
+
+"Zorro Demon",
+"Dragón Rojo",
+"Dragón Blanco",
+"Dragón Negro",
+"Fénix",
+
+"Fenrir",
+"Mujer Demonio Zorra",
+"Mujer Demonio Gato",
+"Mujer Demonio Loba",
+"Mujer Demonio"
+
+];
+
+/* ===== INVENTARIO DEL JUGADOR ===== */
+
+let inventario=JSON.parse(localStorage.getItem("inventarioMascotas")) || [];
+
+/* ===== MASCOTA EQUIPADA ===== */
+
+let equipada=localStorage.getItem("mascotaEquipada");
+
+/* ===== MOSTRAR EQUIPADA ===== */
+
+document.getElementById("mascotaEquipada").textContent=equipada || "Ninguna";
+
+/* ===== CREAR GRID ===== */
+
+let grid=document.getElementById("gridMascotas");
+
+mascotas.forEach(nombre=>{
+
+let cuadro=document.createElement("div");
+
+cuadro.classList.add("cuadro");
+
+let tienes=inventario.includes(nombre);
+
+/* SI NO TIENE LA MASCOTA */
+
+if(!tienes){
+
+cuadro.classList.add("bloqueado");
+
+cuadro.innerHTML=`
+<div class="candado">🔒</div>
+<div class="nombre">${nombre}</div>
+`;
+
+}
+
+/* SI LA TIENE */
+
+else{
+
+cuadro.innerHTML=`
+<div>🐾</div>
+<div class="nombre">${nombre}</div>
+`;
+
+cuadro.onclick=()=>equipar(nombre);
+
+}
+
+/* SI ESTA EQUIPADA */
+
+if(nombre===equipada){
+cuadro.classList.add("equipado");
+}
+
+grid.appendChild(cuadro);
+
+});
+
+/* ===== EQUIPAR ===== */
+
+function equipar(nombre){
+
+localStorage.setItem("mascotaEquipada",nombre);
+
+location.reload();
+
+}
+
+</script>
+
+</body>
+</html>

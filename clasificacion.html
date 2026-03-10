@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clasificación del Gremio</title>
+
+<style>
+body{
+    margin:0;
+    font-family:'Georgia', serif;
+    background:#1e1b16;
+    color:#f5e6c8;
+    text-align:center;
+}
+
+/* BOTÓN MENÚ */
+.menu-toggle{
+    position:fixed;
+    top:20px;
+    left:20px;
+    font-size:28px;
+    cursor:pointer;
+    z-index:1001;
+    color:gold;
+}
+
+/* SIDEBAR */
+.sidebar{
+    position:fixed;
+    top:0;
+    left:-320px;
+    width:300px;
+    height:100%;
+    background:#14110d;
+    border-right:3px solid gold;
+    padding-top:80px;
+    transition:0.4s;
+    z-index:1000;
+}
+
+.sidebar.active{
+    left:0;
+}
+
+.sidebar button{
+    display:block;
+    width:85%;
+    margin:15px auto;
+    padding:12px;
+    font-size:18px;
+    background:linear-gradient(45deg,gold,darkgoldenrod);
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
+    color:#2b1c0f;
+}
+
+.submenu{
+    display:none;
+    margin-left:20px;
+}
+
+.submenu button{
+    font-size:15px;
+    padding:8px;
+}
+
+/* CONTENIDO */
+.contenedor{
+    max-width:900px;
+    margin:100px auto 40px auto;
+    padding:30px;
+    background:rgba(255,255,255,0.05);
+    border:3px solid #8b6f47;
+    border-radius:25px;
+}
+
+h1{
+    color:gold;
+    text-shadow:0 0 10px gold;
+}
+
+.tabla{
+    margin-top:30px;
+}
+
+.fila{
+    display:grid;
+    grid-template-columns:60px 1fr 120px 120px;
+    padding:12px;
+    border-bottom:1px solid rgba(255,255,255,0.2);
+    font-size:18px;
+}
+
+.fila.encabezado{
+    font-weight:bold;
+    color:gold;
+    border-bottom:2px solid gold;
+}
+</style>
+</head>
+<body>
+
+<!-- BOTÓN -->
+<div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+<!-- BARRA -->
+<div class="sidebar" id="sidebar">
+
+    <button onclick="irInicio()">Inicio</button>
+
+    <button onclick="toggleEquipar()">Equipar ▾</button>
+    <div class="submenu" id="submenuEquipar">
+        <button onclick="abrirPagina('equipar.html')">Mascota</button>
+        <button onclick="abrirPagina('equipar.html')">Título</button>
+    </div>
+
+    <button onclick="irClasificacion()">Clasificación</button>
+
+    <button onclick="irTitulos()">Títulos</button>
+
+    <button onclick="toggleTienda()">Tienda ▾</button>
+    <div class="submenu" id="submenuTienda">
+        <button onclick="abrirPagina('tienda-mascotas.html')">Tienda Mascotas</button>
+        <button onclick="abrirPagina('tienda-objetos.html')">Tienda Objetos</button>
+        <button onclick="abrirPagina('tienda-venta.html')">Venta</button>
+        <button onclick="abrirPagina('tienda-negra.html')">Tienda Negra</button>
+    </div>
+
+    <button onclick="irCreditos()">Créditos</button>
+
+</div>
+
+<!-- CONTENIDO -->
+<div class="contenedor">
+    <h1>🏆 Clasificación del Gremio 🏆</h1>
+
+    <div class="tabla" id="tablaRanking">
+
+        <div class="fila encabezado">
+            <div>#</div>
+            <div>Nombre</div>
+            <div>Rango</div>
+            <div>Monedas</div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+
+/* ===== SISTEMA BARRA ===== */
+
+function toggleMenu(){
+    document.getElementById("sidebar").classList.toggle("active");
+}
+
+function abrirPagina(pagina){
+    if(window.location.pathname.includes(pagina)){
+        return;
+    }
+    window.location.href = pagina;
+}
+
+function irInicio(){
+    if(window.location.pathname.includes("inicio2.html")){
+        return;
+    }
+    window.location.href = "inicio2.html";
+}
+
+function irClasificacion(){
+    if(window.location.pathname.includes("clasificacion.html")){
+        return;
+    }
+}
+
+function irTitulos(){
+    if(window.location.pathname.includes("titulos.html")){
+        return;
+    }
+    window.location.href = "titulos.html";
+}
+
+function irCreditos(){
+    if(window.location.pathname.includes("creditos.html")){
+        return;
+    }
+    window.location.href = "creditos.html";
+}
+
+function toggleEquipar(){
+    let menu = document.getElementById("submenuEquipar");
+    menu.style.display = menu.style.display === "block" ? "none" : "block";
+}
+
+function toggleTienda(){
+    let menu = document.getElementById("submenuTienda");
+    menu.style.display = menu.style.display === "block" ? "none" : "block";
+}
+
+/* ===== SISTEMA RANKING ===== */
+
+function cargarRanking(){
+
+    let jugadores = JSON.parse(localStorage.getItem("rankingGremio")) || [];
+
+    let jugadorActual = {
+        nombre: localStorage.getItem("nombreJugador"),
+        puntos: parseInt(localStorage.getItem("puntosJugador")) || 0,
+        monedas: parseInt(localStorage.getItem("monedasJugador")) || 0
+    };
+
+    if(jugadorActual.nombre){
+
+        let existe = jugadores.find(j => j.nombre === jugadorActual.nombre);
+
+        if(!existe){
+            jugadores.push(jugadorActual);
+        }else{
+            existe.monedas = jugadorActual.monedas;
+            existe.puntos = jugadorActual.puntos;
+        }
+
+        localStorage.setItem("rankingGremio", JSON.stringify(jugadores));
+    }
+
+    jugadores.sort((a,b)=> b.monedas - a.monedas);
+
+    let tabla = document.getElementById("tablaRanking");
+
+    jugadores.forEach((jugador,index)=>{
+
+        let rango="F";
+        if(jugador.puntos <= 30) rango="F";
+        else if(jugador.puntos <= 50) rango="D";
+        else if(jugador.puntos <= 65) rango="C";
+        else if(jugador.puntos <= 75) rango="B";
+        else if(jugador.puntos <= 85) rango="A";
+        else if(jugador.puntos <= 95) rango="S";
+        else rango="SS";
+
+        let fila = document.createElement("div");
+        fila.classList.add("fila");
+
+        fila.innerHTML = `
+            <div>${index+1}</div>
+            <div>${jugador.nombre}</div>
+            <div>${rango}</div>
+            <div>${jugador.monedas}</div>
+        `;
+
+        tabla.appendChild(fila);
+    });
+}
+
+cargarRanking();
+
+</script>
+
+</body>
+</html>
