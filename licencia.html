@@ -10,10 +10,8 @@
 <style>
 
 body{
-
 margin:0;
 font-family:'Georgia', serif;
-
 background:#1e1b16;
 
 display:flex;
@@ -22,7 +20,6 @@ align-items:center;
 
 height:100vh;
 color:white;
-
 }
 
 /* TARJETA */
@@ -50,8 +47,6 @@ animation:aparecer 1s ease;
 
 }
 
-/* ANIMACION */
-
 @keyframes aparecer{
 
 from{
@@ -66,12 +61,9 @@ opacity:1;
 
 }
 
-/* SELLO */
-
 .sello{
 
 position:absolute;
-
 top:10px;
 right:15px;
 
@@ -81,16 +73,12 @@ filter:drop-shadow(0 0 6px gold);
 
 }
 
-/* TITULO */
-
 .tarjeta h2{
 
 text-align:center;
 margin:0;
 
 }
-
-/* INFO */
 
 .info{
 
@@ -99,8 +87,6 @@ font-size:14px;
 line-height:1.6;
 
 }
-
-/* CODIGO */
 
 .codigo{
 
@@ -112,8 +98,6 @@ font-size:12px;
 font-weight:bold;
 
 }
-
-/* BOTON */
 
 button{
 
@@ -197,23 +181,24 @@ let puntos = parseInt(localStorage.getItem("puntosJugador")) || 0;
 if(!nombre || !magia){
 
 alert("Error: datos no encontrados.");
-
 window.location.href="index.html";
 
 }
 
-/* RANGO */
+/* RANGO (ARREGLADO) */
 
-let rango="";
+let rango="F";
 
-if(puntos<=30) rango="F";
-else if(puntos<=45) rango="E";
-else if(puntos<=60) rango="D";
-else if(puntos<=75) rango="C";
-else if(puntos<=90) rango="B";
-else if(puntos<=105) rango="A";
-else if(puntos<=115) rango="S";
-else rango="SS";
+if(puntos>=35) rango="E";
+if(puntos>=50) rango="D";
+if(puntos>=65) rango="C";
+if(puntos>=80) rango="B";
+if(puntos>=95) rango="A";
+if(puntos>=110) rango="S";
+
+/* GUARDAR RANGO */
+
+localStorage.setItem("rangoJugador",rango);
 
 /* ROL */
 
@@ -244,6 +229,17 @@ document.getElementById("numero").textContent=numero;
 document.getElementById("rango").textContent=rango;
 document.getElementById("rol").textContent=rol;
 document.getElementById("codigo").textContent=numero;
+
+/* ACTIVAR TITULO AVENTURERO */
+
+let titulos = JSON.parse(localStorage.getItem("titulos")) || [];
+
+if(!titulos.includes("Aventurero del gremio")){
+
+titulos.push("Aventurero del gremio");
+localStorage.setItem("titulos",JSON.stringify(titulos));
+
+}
 
 /* GUARDAR LICENCIA */
 

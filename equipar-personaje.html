@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Tienda Negra</title>
+<title>Elegir Personaje</title>
 
 <style>
 
@@ -17,7 +17,7 @@ top:20px;
 left:20px;
 font-size:28px;
 cursor:pointer;
-color:red;
+color:gold;
 z-index:1001;
 }
 
@@ -27,8 +27,8 @@ top:0;
 left:-320px;
 width:300px;
 height:100%;
-background:#0b0000;
-border-right:3px solid red;
+background:#14110d;
+border-right:3px solid gold;
 padding-top:80px;
 transition:.35s;
 z-index:1000;
@@ -44,12 +44,12 @@ width:85%;
 margin:15px auto;
 padding:12px;
 font-size:18px;
-background:linear-gradient(45deg,#440000,#880000);
+background:linear-gradient(45deg,gold,darkgoldenrod);
 border:none;
 border-radius:10px;
 cursor:pointer;
 font-weight:bold;
-color:white;
+color:#2b1c0f;
 }
 
 .submenu{
@@ -67,67 +67,55 @@ padding:8px;
 body{
 margin:0;
 font-family:Georgia,serif;
-background:#090000;
-color:#ffdddd;
+background:#1e1b16;
+color:#f5e6c8;
 text-align:center;
 }
 
 h1{
-color:red;
+color:gold;
 margin-top:40px;
 }
 
-/* ===== GRID ===== */
+/* ===== GRID PERSONAJES ===== */
 
 .grid{
 display:grid;
-grid-template-columns:repeat(5,1fr);
-gap:20px;
-max-width:900px;
-margin:40px auto;
+grid-template-columns:1fr 1fr;
+gap:40px;
+max-width:500px;
+margin:60px auto;
 }
 
-/* ===== CUADROS ===== */
-
 .cuadro{
-height:130px;
-background:rgba(0,0,0,0.8);
-border:3px solid #660000;
+
+background:rgba(0,0,0,0.5);
+border:3px solid #8b6f47;
 border-radius:15px;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
+padding:20px;
 cursor:pointer;
 transition:.25s;
+
 }
 
 .cuadro:hover{
 transform:scale(1.05);
-border-color:red;
 }
 
-/* BLOQUEADO */
-
-.bloqueado{
-opacity:.4;
-cursor:not-allowed;
+.cuadro img{
+width:150px;
+image-rendering:pixelated;
 }
 
-.candado{
-font-size:30px;
+.elegido{
+border:3px solid lime;
+box-shadow:0 0 10px lime;
 }
-
-/* TEXTO */
 
 .nombre{
-margin-top:5px;
-font-size:14px;
-}
-
-.precio{
-font-size:12px;
-color:#ff7777;
+margin-top:10px;
+font-size:20px;
+font-weight:bold;
 }
 
 </style>
@@ -159,18 +147,32 @@ color:#ff7777;
 </div>
 
 <button onclick="ir('titulos.html')">Guía de Títulos</button>
-
 <button onclick="ir('clasificacion.html')">Clasificación</button>
-
 <button onclick="ir('creditos.html')">Créditos</button>
 
 </div>
 
-<h1>🩸 Tienda Negra</h1>
+<h1>Elegir Personaje</h1>
 
-<h3>Solo los aventureros más oscuros compran aquí...</h3>
+<div class="grid">
 
-<div class="grid" id="gridTienda"></div>
+<div class="cuadro" id="hombre" onclick="elegir('hombre')">
+
+<img src="hombre.png">
+
+<div class="nombre">Hombre</div>
+
+</div>
+
+<div class="cuadro" id="mujer" onclick="elegir('mujer')">
+
+<img src="mujer.png">
+
+<div class="nombre">Mujer</div>
+
+</div>
+
+</div>
 
 <script>
 
@@ -191,110 +193,27 @@ menu.style.display = menu.style.display==="block"?"none":"block";
 }
 
 function ir(pagina){
-
-if(window.location.pathname.includes(pagina)){
-return;
-}
-
+if(window.location.pathname.includes(pagina)) return;
 window.location.href=pagina;
-
 }
 
-/* ===== MASCOTAS TIENDA NEGRA ===== */
+/* ===== PERSONAJE GUARDADO ===== */
 
-let mascotas=[
+let personaje=localStorage.getItem("personajeJugador");
 
-{nombre:"Fenrir",precio:8000},
-
-{nombre:"Mujer Demonio Zorra",precio:5000},
-
-{nombre:"Mujer Demonio Gato",precio:5000},
-
-{nombre:"Mujer Demonio Loba",precio:5000},
-
-{nombre:"Mujer Demonio",precio:10000}
-
-];
-
-/* ===== INVENTARIO ===== */
-
-let inventario=JSON.parse(localStorage.getItem("inventarioMascotas")) || [];
-
-let monedas=parseInt(localStorage.getItem("monedasJugador")) || 0;
-
-/* ===== GRID ===== */
-
-let grid=document.getElementById("gridTienda");
-
-mascotas.forEach(m=>{
-
-let cuadro=document.createElement("div");
-
-cuadro.classList.add("cuadro");
-
-let tienes=inventario.includes(m.nombre);
-
-/* SI YA LO TIENE */
-
-if(tienes){
-
-cuadro.classList.add("bloqueado");
-
-cuadro.innerHTML=`
-<div class="candado">✔</div>
-<div class="nombre">${m.nombre}</div>
-<div class="precio">Ya comprado</div>
-`;
-
+if(personaje==="hombre"){
+document.getElementById("hombre").classList.add("elegido");
 }
 
-/* SI NO LO TIENE */
-
-else{
-
-cuadro.innerHTML=`
-<div>😈</div>
-<div class="nombre">${m.nombre}</div>
-<div class="precio">${m.precio} monedas</div>
-`;
-
-cuadro.onclick=()=>comprar(m);
-
+if(personaje==="mujer"){
+document.getElementById("mujer").classList.add("elegido");
 }
 
-grid.appendChild(cuadro);
+/* ===== ELEGIR PERSONAJE ===== */
 
-});
+function elegir(tipo){
 
-/* ===== COMPRAR ===== */
-
-function comprar(m){
-
-if(inventario.includes(m.nombre)){
-return;
-}
-
-if(monedas < m.precio){
-
-alert("No tienes suficientes monedas.");
-
-return;
-
-}
-
-/* RESTAR MONEDAS */
-
-monedas -= m.precio;
-
-localStorage.setItem("monedasJugador",monedas);
-
-/* AGREGAR MASCOTA */
-
-inventario.push(m.nombre);
-
-localStorage.setItem("inventarioMascotas",JSON.stringify(inventario));
-
-alert("Has comprado: "+m.nombre);
+localStorage.setItem("personajeJugador",tipo);
 
 location.reload();
 

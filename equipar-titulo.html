@@ -154,6 +154,7 @@ font-size:13px;
 <div class="submenu" id="submenuEquipar">
 <button onclick="ir('equipar-mascota.html')">Mascota</button>
 <button onclick="ir('equipar-titulo.html')">Título</button>
+<button onclick="ir('equipar-personaje.html')">Personaje</button>
 </div>
 
 <button onclick="ir('titulos.html')">Guía de Títulos</button>
@@ -240,14 +241,20 @@ let equipado=localStorage.getItem("tituloJugador");
 /* ===== FUNCION DESBLOQUEAR ===== */
 
 function desbloquear(titulo){
-
 if(!inventarioTitulos.includes(titulo)){
 inventarioTitulos.push(titulo);
 }
-
 }
 
-/* ===== REVISION AUTOMATICA ===== */
+/* ===== DESBLOQUEO AUTOMATICO ===== */
+
+/* TODOS TIENEN ESTE AL TERMINAR EL EXAMEN */
+
+if(localStorage.getItem("licenciaCreada")==="si"){
+desbloquear("Aventurero");
+}
+
+/* OTROS TITULOS */
 
 if(mascotas.length>=1){
 desbloquear("Comprador de Mascotas");

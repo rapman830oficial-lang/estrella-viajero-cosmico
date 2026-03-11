@@ -10,114 +10,98 @@
 <style>
 
 body{
-    margin:0;
-    font-family:'Georgia', serif;
+margin:0;
+font-family:'Georgia', serif;
 
-    background:
-    linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
-    url("fondo.jpg");
+background:
+linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
+url("fondo.jpg");
 
-    background-size:cover;
-    background-position:center;
-    background-attachment:fixed;
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
 
-    color:#3b2b15;
+color:#3b2b15;
 }
-
-/* CONTENEDOR */
 
 .contenedor{
 
-    max-width:900px;
-    margin:40px auto;
-    padding:60px 40px;
+max-width:900px;
+margin:40px auto;
+padding:60px 40px;
 
-    text-align:center;
+text-align:center;
 
-    background:url("pergamino.png");
-    background-size:100% 100%;
-    background-repeat:no-repeat;
+background:url("pergamino.png");
+background-size:100% 100%;
+background-repeat:no-repeat;
 
 }
-
-/* TITULO */
 
 h1{
-    font-size:45px;
-    margin-bottom:30px;
+font-size:45px;
+margin-bottom:30px;
 }
-
-/* GRID */
 
 .preguntas-grid{
 
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:30px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:30px;
 
-    margin-top:30px;
+margin-top:30px;
 
 }
-
-/* BLOQUE DE PREGUNTA */
 
 .pregunta{
-    padding:10px;
+padding:10px;
 }
-
-/* SELECT */
 
 select{
 
-    width:100%;
-    padding:10px;
+width:100%;
+padding:10px;
 
-    font-size:16px;
+font-size:16px;
 
-    border-radius:6px;
-    border:1px solid #aaa;
+border-radius:6px;
+border:1px solid #aaa;
 
-    margin-top:10px;
+margin-top:10px;
 
 }
 
-/* BOTON */
-
 button{
 
-    margin-top:50px;
+margin-top:50px;
 
-    padding:15px 40px;
+padding:15px 40px;
 
-    font-size:18px;
-    font-weight:bold;
+font-size:18px;
+font-weight:bold;
 
-    background:linear-gradient(45deg,gold,darkgoldenrod);
+background:linear-gradient(45deg,gold,darkgoldenrod);
 
-    border:none;
-    border-radius:10px;
+border:none;
+border-radius:10px;
 
-    cursor:pointer;
+cursor:pointer;
 
-    transition:0.3s;
+transition:0.3s;
 
 }
 
 button:hover{
 
-    transform:scale(1.05);
-    box-shadow:0 0 10px gold;
+transform:scale(1.05);
+box-shadow:0 0 10px gold;
 
 }
-
-/* RESPONSIVE */
 
 @media (max-width:700px){
 
 .preguntas-grid{
-
 grid-template-columns:1fr;
-
 }
 
 }
@@ -253,30 +237,34 @@ grid-template-columns:1fr;
 
 </div>
 
-
 <script>
 
-const formulario = document.getElementById("formulario");
+const formulario=document.getElementById("formulario");
 
-formulario.addEventListener("submit", function(e){
+formulario.addEventListener("submit",function(e){
 
 e.preventDefault();
 
-const respuestas = document.querySelectorAll(".respuesta");
+const respuestas=document.querySelectorAll(".respuesta");
 
-let puntosExtra = 0;
+let puntosExtra=0;
 
-respuestas.forEach(respuesta => {
+for(let r of respuestas){
 
-puntosExtra += parseInt(respuesta.value) || 0;
+if(r.value===""){
+alert("Debes responder todas las preguntas.");
+return;
+}
 
-});
+puntosExtra+=parseInt(r.value);
 
-let puntosActuales = parseInt(localStorage.getItem("puntosJugador")) || 0;
+}
 
-localStorage.setItem("puntosJugador", puntosActuales + puntosExtra);
+let puntosActuales=parseInt(localStorage.getItem("puntosJugador"))||0;
 
-window.location.href = "licencia.html";
+localStorage.setItem("puntosJugador",puntosActuales+puntosExtra);
+
+window.location.href="licencia.html";
 
 });
 

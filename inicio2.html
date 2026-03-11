@@ -170,6 +170,7 @@ font-weight:bold;
 <div class="submenu" id="submenuEquipar">
 <button onclick="ir('equipar-mascota.html')">Mascota</button>
 <button onclick="ir('equipar-titulo.html')">Título</button>
+<button onclick="ir('equipar-personaje.html')">Personaje</button>
 </div>
 
 <button onclick="ir('titulos.html')">Títulos</button>
@@ -255,23 +256,23 @@ window.location.href=pagina;
 
 let nombre=localStorage.getItem("nombreJugador");
 let magia=localStorage.getItem("magiaJugador");
-let puntos=parseInt(localStorage.getItem("puntosJugador"));
+let puntos=parseInt(localStorage.getItem("puntosJugador")) || 0;
 let numero=localStorage.getItem("numeroAventurero");
 
 let titulo=localStorage.getItem("tituloJugador") || "Aventurero del Gremio";
 let animal=localStorage.getItem("mascotaEquipada") || "Ninguna";
 let monedas=parseInt(localStorage.getItem("monedasJugador")) || 0;
 
-/* RANGO */
+/* RANGO (ARREGLADO) */
 
 let rango="F";
 
-if(puntos>30) rango="D";
-if(puntos>50) rango="C";
-if(puntos>65) rango="B";
-if(puntos>75) rango="A";
-if(puntos>85) rango="S";
-if(puntos>95) rango="SS";
+if(puntos>=35) rango="E";
+if(puntos>=50) rango="D";
+if(puntos>=65) rango="C";
+if(puntos>=80) rango="B";
+if(puntos>=95) rango="A";
+if(puntos>=110) rango="S";
 
 /* ROL */
 
@@ -397,6 +398,22 @@ localStorage.setItem("codigoGlobalUsado","si");
 document.getElementById("monedas").textContent=monedas;
 
 alert("⭐ Código global activado ⭐");
+
+}
+
+/* SEGUNDA VIDA (RESETEA TODO EL JUEGO) */
+
+else if(codigo==="Segunda_vida"){
+
+if(confirm("Este código borrará TODOS los datos del juego. ¿Continuar?")){
+
+localStorage.clear();
+
+alert("Tu aventura ha renacido...");
+
+window.location.href="index.html";
+
+}
 
 }
 
