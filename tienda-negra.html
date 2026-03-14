@@ -67,9 +67,29 @@ padding:8px;
 body{
 margin:0;
 font-family:Georgia,serif;
-background:#090000;
 color:#ffdddd;
 text-align:center;
+
+/* FONDO */
+
+background-image:url("tienda-negra-fondo.png");
+background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
+background-attachment:fixed;
+}
+
+/* OSCURECER UN POCO EL FONDO */
+
+body::before{
+content:"";
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.65);
+z-index:-1;
 }
 
 h1{
@@ -87,15 +107,23 @@ max-width:900px;
 margin:40px auto;
 }
 
-/* ===== CUADROS ===== */
+/* ===== ITEM COMPLETO ===== */
+
+.item{
+display:flex;
+flex-direction:column;
+align-items:center;
+}
+
+/* ===== CUADRO ===== */
 
 .cuadro{
-height:130px;
+width:120px;
+height:120px;
 background:rgba(0,0,0,0.8);
 border:3px solid #660000;
 border-radius:15px;
 display:flex;
-flex-direction:column;
 align-items:center;
 justify-content:center;
 cursor:pointer;
@@ -107,21 +135,22 @@ transform:scale(1.05);
 border-color:red;
 }
 
-/* BLOQUEADO */
-
 .bloqueado{
-opacity:.4;
+opacity:.5;
 cursor:not-allowed;
 }
 
-.candado{
-font-size:30px;
+/* ===== IMAGEN ===== */
+
+.personaje-img{
+width:70px;
+image-rendering:pixelated;
 }
 
-/* TEXTO */
+/* ===== TEXTO ===== */
 
 .nombre{
-margin-top:5px;
+margin-top:8px;
 font-size:14px;
 }
 
@@ -159,24 +188,18 @@ color:#ff7777;
 </div>
 
 <button onclick="ir('titulos.html')">Guía de Títulos</button>
-
 <button onclick="ir('misiones.html')">Misiones</button>
-
 <button onclick="ir('clasificacion.html')">Clasificación</button>
-
 <button onclick="ir('creditos.html')">Créditos</button>
 
 </div>
 
 <h1>🩸 Tienda Negra</h1>
-
 <h3>Solo los aventureros más oscuros compran aquí...</h3>
 
 <div class="grid" id="gridTienda"></div>
 
 <script>
-
-/* ===== MENU ===== */
 
 function toggleMenu(){
 document.getElementById("sidebar").classList.toggle("active");
@@ -193,82 +216,69 @@ menu.style.display = menu.style.display==="block"?"none":"block";
 }
 
 function ir(pagina){
-
 if(window.location.pathname.includes(pagina)){
 return;
 }
-
 window.location.href=pagina;
-
 }
 
-/* ===== MASCOTAS TIENDA NEGRA ===== */
+/* ===== PERSONAJES ===== */
 
 let mascotas=[
 
-{nombre:"Fenrir",precio:8000},
-
-{nombre:"Mujer Demonio Zorra",precio:5000},
-
-{nombre:"Mujer Demonio Gato",precio:5000},
-
-{nombre:"Mujer Demonio Loba",precio:5000},
-
-{nombre:"Mujer Demonio",precio:10000}
+{nombre:"Fenrir",precio:8000,imagen:"fenrir.png"},
+{nombre:"Mujer Demonio Zorra",precio:5000,imagen:"zorra.png"},
+{nombre:"Mujer Demonio Gato",precio:5000,imagen:"gato.png"},
+{nombre:"Mujer Demonio Loba",precio:5000,imagen:"loba.png"},
+{nombre:"Mujer Demonio",precio:10000,imagen:"demonio.png"}
 
 ];
 
-/* ===== INVENTARIO ===== */
-
 let inventario=JSON.parse(localStorage.getItem("inventarioMascotas")) || [];
-
 let monedas=parseInt(localStorage.getItem("monedasJugador")) || 0;
-
-/* ===== GRID ===== */
 
 let grid=document.getElementById("gridTienda");
 
 mascotas.forEach(m=>{
 
-let cuadro=document.createElement("div");
+let item=document.createElement("div");
+item.classList.add("item");
 
+let cuadro=document.createElement("div");
 cuadro.classList.add("cuadro");
 
 let tienes=inventario.includes(m.nombre);
 
-/* SI YA LO TIENE */
+if(tienes){
+cuadro.classList.add("bloqueado");
+}
+
+cuadro.innerHTML=`<img src="${m.imagen}" class="personaje-img">`;
+
+if(!tienes){
+cuadro.onclick=()=>comprar(m);
+}
+
+let nombre=document.createElement("div");
+nombre.classList.add("nombre");
+nombre.textContent=m.nombre;
+
+let precio=document.createElement("div");
+precio.classList.add("precio");
 
 if(tienes){
-
-cuadro.classList.add("bloqueado");
-
-cuadro.innerHTML=`
-<div class="candado">✔</div>
-<div class="nombre">${m.nombre}</div>
-<div class="precio">Ya comprado</div>
-`;
-
+precio.textContent="Ya comprado";
+}else{
+precio.textContent=m.precio+" monedas";
 }
 
-/* SI NO LO TIENE */
+item.appendChild(cuadro);
+item.appendChild(nombre);
+item.appendChild(precio);
 
-else{
-
-cuadro.innerHTML=`
-<div>😈</div>
-<div class="nombre">${m.nombre}</div>
-<div class="precio">${m.precio} monedas</div>
-`;
-
-cuadro.onclick=()=>comprar(m);
-
-}
-
-grid.appendChild(cuadro);
+grid.appendChild(item);
 
 });
-
-/* ===== COMPRAR ===== */
 
 function comprar(m){
 
@@ -277,23 +287,14 @@ return;
 }
 
 if(monedas < m.precio){
-
 alert("No tienes suficientes monedas.");
-
 return;
-
 }
 
-/* RESTAR MONEDAS */
-
 monedas -= m.precio;
-
 localStorage.setItem("monedasJugador",monedas);
 
-/* AGREGAR MASCOTA */
-
 inventario.push(m.nombre);
-
 localStorage.setItem("inventarioMascotas",JSON.stringify(inventario));
 
 location.reload();
