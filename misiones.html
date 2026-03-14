@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Tienda Negra</title>
+<title>Misiones del Gremio</title>
 
 <style>
 
@@ -17,7 +17,7 @@ top:20px;
 left:20px;
 font-size:28px;
 cursor:pointer;
-color:red;
+color:gold;
 z-index:1001;
 }
 
@@ -27,8 +27,8 @@ top:0;
 left:-320px;
 width:300px;
 height:100%;
-background:#0b0000;
-border-right:3px solid red;
+background:#14110d;
+border-right:3px solid gold;
 padding-top:80px;
 transition:.35s;
 z-index:1000;
@@ -44,12 +44,12 @@ width:85%;
 margin:15px auto;
 padding:12px;
 font-size:18px;
-background:linear-gradient(45deg,#440000,#880000);
+background:linear-gradient(45deg,gold,darkgoldenrod);
 border:none;
 border-radius:10px;
 cursor:pointer;
 font-weight:bold;
-color:white;
+color:#2b1c0f;
 }
 
 .submenu{
@@ -67,67 +67,77 @@ padding:8px;
 body{
 margin:0;
 font-family:Georgia,serif;
-background:#090000;
-color:#ffdddd;
+background:#1e1b16;
+color:#3b2b15;
 text-align:center;
 }
 
 h1{
-color:red;
+color:gold;
 margin-top:40px;
 }
 
-/* ===== GRID ===== */
+/* ===== PIZARRA ===== */
 
-.grid{
+.mural{
+
+max-width:1100px;
+margin:40px auto;
+
 display:grid;
 grid-template-columns:repeat(5,1fr);
-gap:20px;
-max-width:900px;
-margin:40px auto;
+gap:25px;
+
 }
 
-/* ===== CUADROS ===== */
+/* ===== PERGAMINO ===== */
 
-.cuadro{
-height:130px;
-background:rgba(0,0,0,0.8);
-border:3px solid #660000;
-border-radius:15px;
+.mision{
+
+background:url("pergamino.png");
+background-size:100% 100%;
+background-repeat:no-repeat;
+
+height:170px;
+
+padding:20px;
+
 display:flex;
 flex-direction:column;
-align-items:center;
 justify-content:center;
-cursor:pointer;
-transition:.25s;
-}
+align-items:center;
 
-.cuadro:hover{
-transform:scale(1.05);
-border-color:red;
-}
+font-weight:bold;
 
-/* BLOQUEADO */
-
-.bloqueado{
-opacity:.4;
-cursor:not-allowed;
-}
-
-.candado{
-font-size:30px;
 }
 
 /* TEXTO */
 
-.nombre{
-margin-top:5px;
-font-size:14px;
+.titulo{
+font-size:16px;
 }
 
-.precio{
+.recompensa{
+font-size:13px;
+color:#7a5200;
+}
+
+button{
+
+margin-top:8px;
+
+padding:6px 12px;
+
+background:gold;
+
+border:none;
+
+border-radius:6px;
+
+cursor:pointer;
+
 font-size:12px;
-color:#ff7777;
+
 }
 
 </style>
@@ -168,11 +178,9 @@ color:#ff7777;
 
 </div>
 
-<h1>🩸 Tienda Negra</h1>
+<h1>📜 Mural de Misiones del Gremio</h1>
 
-<h3>Solo los aventureros más oscuros compran aquí...</h3>
-
-<div class="grid" id="gridTienda"></div>
+<div class="mural" id="muralMisiones"></div>
 
 <script>
 
@@ -193,110 +201,88 @@ menu.style.display = menu.style.display==="block"?"none":"block";
 }
 
 function ir(pagina){
-
-if(window.location.pathname.includes(pagina)){
-return;
-}
-
+if(window.location.pathname.includes(pagina)) return;
 window.location.href=pagina;
-
 }
 
-/* ===== MASCOTAS TIENDA NEGRA ===== */
+/* ===== MISIONES ===== */
 
-let mascotas=[
+let misiones=[
 
-{nombre:"Fenrir",precio:8000},
+["Matar 5 Slimes",20],
+["Matar 10 Slimes",40],
+["Matar 20 Slimes",80],
+["Cazar 3 Lobos",30],
+["Cazar 6 Lobos",60],
+["Cazar 10 Lobos",100],
+["Eliminar 5 Arañas",40],
+["Eliminar 10 Arañas",80],
+["Derrotar Goblins",60],
+["Derrotar 10 Goblins",120],
 
-{nombre:"Mujer Demonio Zorra",precio:5000},
+["Explorar Bosque",40],
+["Explorar Mazmorra",100],
+["Explorar Mazmorra Oscura",150],
+["Buscar Tesoro",120],
+["Abrir Cofre Antiguo",80],
 
-{nombre:"Mujer Demonio Gato",precio:5000},
+["Comprar Mascota",100],
+["Comprar 3 Mascotas",200],
+["Comprar 5 Mascotas",400],
 
-{nombre:"Mujer Demonio Loba",precio:5000},
+["Ganar 200 monedas",80],
+["Ganar 500 monedas",150],
+["Ganar 1000 monedas",300],
 
-{nombre:"Mujer Demonio",precio:10000}
+["Derrotar Dragón Menor",400],
+["Derrotar Dragón Rojo",600],
+["Derrotar Dragón Negro",800],
+
+["Completar Examen",100],
+["Subir a rango C",200],
+["Subir a rango B",300],
+["Subir a rango A",500],
+["Subir a rango S",800],
+
+["Convertirse en Aventurero Legendario",1000]
 
 ];
 
-/* ===== INVENTARIO ===== */
+/* ===== CREAR MURAL ===== */
 
-let inventario=JSON.parse(localStorage.getItem("inventarioMascotas")) || [];
+let mural=document.getElementById("muralMisiones");
 
-let monedas=parseInt(localStorage.getItem("monedasJugador")) || 0;
+misiones.forEach(m=>{
 
-/* ===== GRID ===== */
+let div=document.createElement("div");
 
-let grid=document.getElementById("gridTienda");
+div.classList.add("mision");
 
-mascotas.forEach(m=>{
+div.innerHTML=`
 
-let cuadro=document.createElement("div");
+<div class="titulo">${m[0]}</div>
 
-cuadro.classList.add("cuadro");
+<div class="recompensa">${m[1]} monedas</div>
 
-let tienes=inventario.includes(m.nombre);
+<button onclick="completar(${m[1]})">Completar</button>
 
-/* SI YA LO TIENE */
-
-if(tienes){
-
-cuadro.classList.add("bloqueado");
-
-cuadro.innerHTML=`
-<div class="candado">✔</div>
-<div class="nombre">${m.nombre}</div>
-<div class="precio">Ya comprado</div>
 `;
 
-}
-
-/* SI NO LO TIENE */
-
-else{
-
-cuadro.innerHTML=`
-<div>😈</div>
-<div class="nombre">${m.nombre}</div>
-<div class="precio">${m.precio} monedas</div>
-`;
-
-cuadro.onclick=()=>comprar(m);
-
-}
-
-grid.appendChild(cuadro);
+mural.appendChild(div);
 
 });
 
-/* ===== COMPRAR ===== */
+/* ===== COMPLETAR ===== */
 
-function comprar(m){
+function completar(recompensa){
 
-if(inventario.includes(m.nombre)){
-return;
-}
+let monedas=parseInt(localStorage.getItem("monedasJugador")) || 0;
 
-if(monedas < m.precio){
-
-alert("No tienes suficientes monedas.");
-
-return;
-
-}
-
-/* RESTAR MONEDAS */
-
-monedas -= m.precio;
+monedas+=recompensa;
 
 localStorage.setItem("monedasJugador",monedas);
 
-/* AGREGAR MASCOTA */
-
-inventario.push(m.nombre);
-
-localStorage.setItem("inventarioMascotas",JSON.stringify(inventario));
-
-location.reload();
+alert("Misión completada! +" + recompensa + " monedas");
 
 }
 

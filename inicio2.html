@@ -59,24 +59,44 @@ margin-left:20px;
 font-size:15px;
 padding:8px;
 }
-
 body{
 margin:0;
 font-family:'Georgia', serif;
-background:#1e1b16;
+
+background:
+linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
+url("fondo-aventura.jpg");
+
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
+
 color:#f5e6c8;
 text-align:center;
 }
 
 .burbuja{
+
 max-width:800px;
 margin:40px auto;
 padding:30px;
-background:rgba(255,255,255,0.08);
-border:3px solid #8b6f47;
-border-radius:25px;
-backdrop-filter:blur(6px);
+
+background:rgba(0,170,255,0.15);
+
+border:2px solid #4fd6ff;
+
+border-radius:20px;
+
+box-shadow:
+0 0 20px rgba(0,200,255,0.7),
+inset 0 0 15px rgba(0,200,255,0.5);
+
+backdrop-filter:blur(8px);
+
+color:#e8faff;
+
 }
+.
 
 .nombre-jugador{
 font-size:45px;
@@ -101,9 +121,17 @@ font-size:18px;
 }
 
 .info-grid div{
-background:rgba(0,0,0,0.4);
+
+background:rgba(0,120,200,0.2);
+
+border:1px solid #4fd6ff;
+
 padding:12px;
+
 border-radius:10px;
+
+box-shadow:0 0 8px rgba(0,200,255,0.6);
+
 }
 
 .panel-inferior{
@@ -174,6 +202,7 @@ font-weight:bold;
 </div>
 
 <button onclick="ir('titulos.html')">Títulos</button>
+<button onclick="ir('misiones.html')">Misiones</button>
 <button onclick="ir('clasificacion.html')">Clasificación</button>
 <button onclick="ir('creditos.html')">Créditos</button>
 
@@ -317,7 +346,7 @@ document.getElementById("titulo").textContent=t;
 
 /* REY DEMONIO */
 
-if(codigo==="Rapman830_Rey_demonio"){
+if(codigo==="Rey_demonio_Rapman830"){
 
 if(localStorage.getItem("codigoReyDemonioUsado")){
 alert("Este código ya fue utilizado.");
@@ -333,20 +362,20 @@ darTitulo("Rey Demonio");
 
 document.getElementById("monedas").textContent=monedas;
 
-alert("🔥 Título secreto desbloqueado 🔥");
+alert("🔥 Bienvenido Rey Demonio 🔥");
 
 }
 
 /* MIEMBRO DEMONIACO */
 
-else if(codigo==="DEMON_MEMBER"){
+else if(codigo==="DEMON_MENBER"){
 
 if(localStorage.getItem("codigoMiembroDemonio")){
 alert("Este código ya fue utilizado.");
 return;
 }
 
-monedas+=5000;
+monedas+=10000;
 
 localStorage.setItem("monedasJugador",monedas);
 localStorage.setItem("codigoMiembroDemonio","si");
@@ -355,42 +384,42 @@ darTitulo("Miembro Demoníaco");
 
 document.getElementById("monedas").textContent=monedas;
 
-alert("😈 Código activado: +5000 monedas");
+alert("😈 Código activado: +10000 monedas");
 
 }
 
 /* ADD DEMONIO */
 
-else if(codigo==="ADD_DEMON"){
+else if(codigo==="ADD_DEMONI"){
 
-if(localStorage.getItem("codigoAddDemon")){
+if(localStorage.getItem("codigoAddDemoni")){
 alert("Este código ya fue utilizado.");
 return;
 }
 
-monedas+=1000;
+monedas+=100000;
 
 localStorage.setItem("monedasJugador",monedas);
-localStorage.setItem("codigoAddDemon","si");
+localStorage.setItem("codigoAddDemoni","si");
 
 darTitulo("ADD Demonio");
 
 document.getElementById("monedas").textContent=monedas;
 
-alert("👹 Código activado: +1000 monedas");
+alert("👹 Código activado: +100000 monedas");
 
 }
 
 /* GLOBAL */
 
-else if(codigo==="ESTRELLA_GLOBAL"){
+else if(codigo==="STAR_GLOBAL"){
 
 if(localStorage.getItem("codigoGlobalUsado")){
 alert("Este código ya fue utilizado.");
 return;
 }
 
-monedas+=1000;
+monedas+=10000;
 
 localStorage.setItem("monedasJugador",monedas);
 localStorage.setItem("codigoGlobalUsado","si");

@@ -67,14 +67,22 @@ padding:8px;
 }
 
 /* ===== BODY ===== */
-
 body{
 margin:0;
 font-family:Georgia,serif;
-background:#1e1b16;
+
+background:
+linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+url("tienda-fondo.png");
+
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
+
 color:#f5e6c8;
 text-align:center;
 }
+
 
 /* ===== TITULO ===== */
 
@@ -179,6 +187,8 @@ border:3px solid lime;
 </div>
 
 <button onclick="ir('titulos.html')">Títulos</button>
+
+<button onclick="ir('misiones.html')">Misiones</button>
 
 <button onclick="ir('clasificacion.html')">Clasificación</button>
 

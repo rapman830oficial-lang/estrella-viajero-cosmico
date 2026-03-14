@@ -67,6 +67,20 @@ margin:10px 0 20px 0;
 
 }
 
+/* CONTENEDOR NOMBRE */
+
+.nombre-contenedor{
+display:flex;
+justify-content:center;
+align-items:center;
+gap:10px;
+}
+
+.dado{
+font-size:25px;
+cursor:pointer;
+}
+
 /* GRID PREGUNTAS */
 
 .preguntas-grid{
@@ -131,14 +145,21 @@ grid-template-columns:1fr;
 
 <h2>📜 Registro del Aventurero</h2>
 
-<label>Nombre del Aventurero</label><br>
-<input type="text" id="nombreJugador" required>
+<label>Nombre del Aventurero</label>
 
-<label>Tipo de Magia</label><br>
+<div class="nombre-contenedor">
+
+<input type="text" id="nombreJugador" maxlength="20" required>
+
+<span class="dado" onclick="nombreAleatorio()">🎲</span>
+
+</div>
+
+<label>Tipo de Magia</label>
 
 <select id="magiaJugador" required>
 
-<option value="">Selecciona tu magia</option>
+<option value="">Elige tu magia</option>
 <option value="Fuego">🔥 Fuego</option>
 <option value="Agua">💧 Agua</option>
 <option value="Tierra">🌱 Tierra</option>
@@ -219,18 +240,53 @@ if(localStorage.getItem("licenciaCreada")==="si"){
 window.location.href="inicio2.html";
 }
 
+/* NOMBRES ALEATORIOS */
+
+const nombres=[
+"Kyro", "Lael","Laren","Larek","Leron","Lior", "Lyren","Mael","Maren","Marik","Marek", "Meron","Miren","Myron","Nael","Naren", "Narek","Neron","Niven","Nyren","Oren", "Orian","Orik","Orin","Oryn","Pavel", "Perin","Pheron","Pyren","Quaren","Quorin", "Rael","Raren","Rarek","Raven","Riven", "Rylen","Sael","Saren","Sarek","Seron", "Soren","Syren","Tael","Taren","Tarek", "Teron","Tiren","Torin","Tyren","Uren", "Urian","Vael","Varen","Varek","Viren", "Vyren","Wael","Waren","Weyron","Wyren", "Xael","Xaren","Xerik","Xiren","Xyren", "Yael","Yaren","Yorin","Yren","Yvar", "Zael","Zaren","Zarek","Zerin","Zyren", "Alya","Aeris","Aira","Alira","Alina", "Amira","Anira","Aria","Asha","Ashira", "Ayla","Azira","Belia","Beria","Bria", "Bryra","Caia","Celia","Cira","Cyra", "Daria","Delia","Delyra","Dira","Dysa", "Eira","Elia","Elira","Elina","Elyra", "Enira","Eria","Fara","Felia","Fira", "Gala","Gelyra","Gina","Halia","Helia", "Hina","Iria","Ilia","Ilyra","Ina", "Jara","Jelyra","Jira","Kaira","Kaia", "Kalia","Kira","Kyra","Kyraen","Lara", "Lena","Liora","Lira","Lyra","Lyxis", "Mara","Maris","Mira","Myria","Nara", "Nelia","Nira","Nivara","Nyra","Nysa", "Olia","Oria","Orlena","Orya","Pera", "Perla","Pyria","Pyra","Qira","Quira", "Raisa","Relyra","Rhea","Rina","Rhyra", "Sara","Selyra","Sera","Selene","Syra", "Talia","Telyra","Tera","Tyra","Una", "Ulia","Uria","Vania","Vaela","Velyra", "Vira","Vyra","Wera","Wynra","Xena", "Xira","Xyra","Yara","Ylira","Ysera", "Yuna","Zaia","Zara","Zelyra","Zia", "Zira","Zyra","Zyrena","Zyriel","Zyria","Aerion","Nyra","Draven","Lyra","Kaelis", "Zyra","Orion","Selira","Vael","Nerys", "Kael","Ardyn","Liora","Riven","Zarek", "Elira","Tyr","Aeris","Varek","Nysa", "Xyron","Alira","Darian","Kyra","Soren", "Zaira","Fenrir","Ilyra","Ragnar","Naeris", "Kairo","Sylra","Theron","Ylira","Zorin", "Ashira","Cael","Elowen","Daeron","Lyxis", "Eryndor","Myria","Fael","Nivara","Gaeron", "Orlena","Hadrion","Pyra","Icaron","Rhyra", "Jorik","Selyra","Kalen","Tyria","Lioren", "Velyra","Maelor","Xyra","Narek","Ysera", "Oryn","Zelyra","Phaeron","Alyra","Quorin", "Bryra","Rhaen","Celyra","Saelor","Delyra", "Taeron","Elyra","Urian","Felyra","Vaeron", "Gelyra","Weyron","Helyra","Xaren","Ilyna", "Yoren","Jelyra","Zaeron","Kelyra","Arix", "Leyra","Myron","Nelyra","Orix","Pelyra", "Qyron","Relyra","Syron","Telyra","Urix", "Velyra","Wyron","Xelyra","Yrix","Zyron","Aeral","Aerik","Aeronis","Aeryn","Aethor", "Aivar","Aizen","Arix","Arkon","Arlen", "Arvyn","Aryen","Askel","Aster","Auron", "Ayren","Azren","Barek","Barion","Baryn", "Belrik","Belvar","Beryn","Braxen","Brevik", "Brisar","Buron","Byren","Caeron","Caiden", "Calrik","Calven","Carion","Caryn","Caylen", "Ceryn","Cevor","Ciron","Corvik","Cyrel", "Daeron","Darik","Darion","Daryx","Daven", "Delrik","Delvar","Derion","Deryn","Devar", "Dorik","Dorven","Doryn","Drayk","Drevik", "Elaris","Elvar","Elvik","Elyon","Emrik", "Envar","Eryon","Evar","Evren","Faelor", "Faerin","Faeryn","Falen","Faryk","Fayren", "Ferik","Feyron","Firon","Fyren","Gaerin", "Galen","Garek","Garin","Garven","Geryn", "Girak","Gorven","Gryven","Haerin","Halen", "Harek","Haryk","Havren","Helrik","Heron", "Heryn","Hyren","Iarik","Iaryn","Icar", "Ieron","Irik"
+];
+
+function nombreAleatorio(){
+
+let nombre=nombres[Math.floor(Math.random()*nombres.length)];
+
+document.getElementById("nombreJugador").value=nombre;
+
+}
+
+/* CONTROL DEL NOMBRE */
+
+const inputNombre=document.getElementById("nombreJugador");
+
+inputNombre.addEventListener("input",function(){
+
+let texto=this.value.replace(/\s/g,"");
+
+if(texto.length>0){
+
+texto=texto.charAt(0).toUpperCase()+texto.slice(1).toLowerCase();
+
+}
+
+this.value=texto;
+
+});
+
 const formulario=document.getElementById("formulario");
 
 formulario.addEventListener("submit",function(e){
 
 e.preventDefault();
 
-const nombre=document.getElementById("nombreJugador").value.trim();
+const nombre=inputNombre.value.trim();
 const magia=document.getElementById("magiaJugador").value;
 
-if(nombre.length<3){
-alert("El nombre debe tener al menos 3 letras.");
+if(nombre.length<4 || nombre.length>20){
+
+alert("El nombre debe tener entre 4 y 20 letras.");
+
 return;
+
 }
 
 const respuestas=document.querySelectorAll(".respuesta");
