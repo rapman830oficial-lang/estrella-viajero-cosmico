@@ -136,6 +136,14 @@ grid-template-columns:1fr;
 </head>
 
 <body>
+  
+  <audio id="sonidoBoton">
+<source src="click.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="musicaExamen" autoplay loop>
+<source src="musica-examen.mp3" type="audio/mpeg">
+</audio>
 
 <div class="contenedor">
 
@@ -228,7 +236,7 @@ grid-template-columns:1fr;
 
 </div>
 
-<button type="submit">Continuar</button>
+<button type="submit" onclick="sonidoClick()">Continuar</button>
 
 </form>
 
@@ -304,6 +312,30 @@ localStorage.setItem("puntosJugador",puntos);
 window.location.href="examen2.html";
 
 });
+
+/* MUSICA DEL EXAMEN */
+
+window.addEventListener("load", function(){
+
+let musica = document.getElementById("musicaExamen");
+
+if(musica){
+musica.volume = 0.6;
+musica.play().catch(()=>{});
+}
+
+});
+
+function sonidoClick(){
+
+let sonido = document.getElementById("sonidoBoton");
+
+if(sonido){
+sonido.currentTime = 0;
+sonido.play();
+}
+
+}
 
 </script>
 

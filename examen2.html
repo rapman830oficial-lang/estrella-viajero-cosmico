@@ -119,6 +119,14 @@ grid-template-columns:1fr;
 
 <body>
 
+<audio id="sonidoBoton">
+<source src="click.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="musicaExamen" autoplay loop>
+<source src="musica-examen.mp3" type="audio/mpeg">
+</audio>
+
 <div class="contenedor">
 
 <h1>⚔ Examen Oficial - Parte 2 ⚔</h1>
@@ -239,7 +247,7 @@ grid-template-columns:1fr;
 
 </div>
 
-<button type="submit">Continuar al Examen Final</button>
+<button type="submit" onclick="sonidoClick()">Continuar al Examen Final</button>
 
 </form>
 
@@ -279,6 +287,30 @@ localStorage.setItem("puntosJugador",puntosActuales+nuevosPuntos);
 window.location.href="examen3.html";
 
 });
+
+/* MUSICA DEL EXAMEN */
+
+window.addEventListener("load", function(){
+
+let musica = document.getElementById("musicaExamen");
+
+if(musica){
+musica.volume = 0.6;
+musica.play().catch(()=>{});
+}
+
+});
+
+function sonidoClick(){
+
+let sonido = document.getElementById("sonidoBoton");
+
+if(sonido){
+sonido.currentTime = 0;
+sonido.play();
+}
+
+}
 
 </script>
 

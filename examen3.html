@@ -111,6 +111,10 @@ grid-template-columns:1fr;
 
 <body>
 
+<audio id="musicaExamen" autoplay loop>
+<source src="musica-examen.mp3" type="audio/mpeg">
+</audio>
+
 <div class="contenedor">
 
 <h1>⚔ Examen Oficial - Parte Final ⚔</h1>
@@ -231,7 +235,7 @@ grid-template-columns:1fr;
 
 </div>
 
-<button type="submit">Finalizar Examen</button>
+<button type="submit" onclick="sonidoClick()">Finalizar Examen</button>
 
 </form>
 
@@ -267,6 +271,30 @@ localStorage.setItem("puntosJugador",puntosActuales+puntosExtra);
 window.location.href="licencia.html";
 
 });
+
+/* MUSICA DEL EXAMEN */
+
+window.addEventListener("load", function(){
+
+let musica = document.getElementById("musicaExamen");
+
+if(musica){
+musica.volume = 0.6;
+musica.play().catch(()=>{});
+}
+
+});
+
+function sonidoClick(){
+
+let sonido = document.getElementById("sonidoBoton");
+
+if(sonido){
+sonido.currentTime = 0;
+sonido.play();
+}
+
+}
 
 </script>
 
