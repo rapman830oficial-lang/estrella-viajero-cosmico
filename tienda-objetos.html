@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tienda de Objetos</title>
+
+<style>
+/* ===== MENU ===== */
+.menu-toggle{
+position:fixed;
+top:20px;
+left:20px;
+font-size:28px;
+cursor:pointer;
+color:gold;
+z-index:1001;
+}
+
+.sidebar{
+position:fixed;
+top:0;
+left:-320px;
+width:300px;
+height:100%;
+background:#14110d;
+border-right:3px solid gold;
+padding-top:80px;
+transition:.35s;
+z-index:1000;
+}
+
+.sidebar.active{
+left:0;
+}
+
+.sidebar button{
+display:block;
+width:85%;
+margin:15px auto;
+padding:12px;
+font-size:18px;
+background:linear-gradient(45deg,gold,darkgoldenrod);
+border:none;
+border-radius:10px;
+cursor:pointer;
+font-weight:bold;
+color:#2b1c0f;
+}
+
+.submenu{
+display:none;
+margin-left:20px;
+}
+
+.submenu button{
+font-size:15px;
+padding:8px;
+}
+
+/* ===== BODY ===== */
+body{
+margin:0;
+font-family:Georgia,serif;
+background:#1e1b16;
+color:#f5e6c8;
+text-align:center;
+}
+
+h1{
+color:gold;
+margin-top:40px;
+}
+
+/* ===== GRID ===== */
+.grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
+max-width:900px;
+margin:40px auto;
+}
+
+/* ===== ITEM ===== */
+.item{
+display:flex;
+flex-direction:column;
+align-items:center;
+}
+
+.cuadro{
+width:120px;
+height:120px;
+background:rgba(0,0,0,0.5);
+border:3px solid #8b6f47;
+border-radius:15px;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+transition:.25s;
+}
+
+.cuadro:hover{
+transform:scale(1.05);
+border-color:gold;
+}
+
+.bloqueado{
+opacity:.5;
+cursor:not-allowed;
+}
+
+.objeto-img{
+width:60px;
+image-rendering:pixelated;
+}
+
+.nombre{
+margin-top:8px;
+font-size:14px;
+}
+
+.precio{
+font-size:12px;
+color:#ffdd77;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+<div class="sidebar" id="sidebar">
+
+<button onclick="ir('inicio2.html')">Inicio</button>
+
+<button onclick="toggleTienda()">Tienda ▾</button>
+
+<div class="submenu" id="submenuTienda">
+<button onclick="ir('tienda-mascotas.html')">Mascotas</button>
+<button onclick="ir('tienda-objetos.html')">Objetos</button>
+<button onclick="ir('tienda-venta.html')">Venta</button>
+<button onclick="ir('tienda-negra.html')">Tienda Negra</button>
+</div>
+
+<button onclick="toggleEquipar()">Equipar ▾</button>
+
+<div class="submenu" id="submenuEquipar">
+<button onclick="ir('equipar-mascota.html')">Mascota</button>
+<button onclick="ir('equipar-titulo.html')">Título</button>
+<button onclick="ir('equipar-personaje.html')">Personaje</button>
+</div>
+
+<button onclick="ir('titulos.html')">Guía de Títulos</button>
+<button onclick="ir('misiones.html')">Misiones</button>
+<button onclick="ir('clasificacion.html')">Clasificación</button>
+<button onclick="ir('creditos.html')">Créditos</button>
+
+</div>
+
+<h1>🛒 Tienda de Objetos</h1>
+<h3>Compra tus pociones y espadas para mejorar tus aventuras</h3>
+
+<div class="grid" id="gridTienda"></div>
+
+<script>
+/* ===== MENU ===== */
+function toggleMenu(){
+document.getElementById("sidebar").classList.toggle("active");
+}
+function toggleEquipar(){
+let menu=document.getElementById("submenuEquipar");
+menu.style.display = menu.style.display==="block"?"none":"block";
+}
+function toggleTienda(){
+let menu=document.getElementById("submenuTienda");
+menu.style.display = menu.style.display==="block"?"none":"block";
+}
+function ir(pagina){
+if(window.location.pathname.includes(pagina)) return;
+window.location.href=pagina;
+}
+
+/* ===== OBJETOS ===== */
+let objetos=[
+  {nombre:"Poción 25 Salud",precio:5000,imagen:"pocion25.png",tipo:"repetible"},
+  {nombre:"Poción 50 Salud",precio:9000,imagen:"pocion50.png",tipo:"repetible"},
+  {nombre:"Poción 100 Salud",precio:16000,imagen:"pocion100.png",tipo:"repetible"},
+  {nombre:"Poción 5 Fuerza",precio:4000,imagen:"pocion5f.png",tipo:"repetible"},
+  {nombre:"Poción 10 Fuerza",precio:8000,imagen:"pocion10f.png",tipo:"repetible"},
+  {nombre:"Poción 15 Fuerza",precio:12000,imagen:"pocion15f.png",tipo:"repetible"},
+  {nombre:"Poción 20 Fuerza",precio:18000,imagen:"pocion20f.png",tipo:"repetible"},
+  {nombre:"Poción 25 Fuerza",precio:25000,imagen:"pocion25f.png",tipo:"repetible"},
+  {nombre:"Espada 10 Daño",precio:50000,imagen:"espada10.png",tipo:"unica"},
+  {nombre:"Espada 15 Daño",precio:80000,imagen:"espada15.png",tipo:"unica"},
+  {nombre:"Espada 20 Daño",precio:120000,imagen:"espada20.png",tipo:"unica"}
+];
+
+/* ===== DATOS ===== */
+let inventario=JSON.parse(localStorage.getItem("inventarioObjetos")) || [];
+let monedas=parseInt(localStorage.getItem("monedasJugador")) || 0;
+
+let grid=document.getElementById("gridTienda");
+
+objetos.forEach(obj=>{
+  let item=document.createElement("div");
+  item.classList.add("item");
+
+  let cuadro=document.createElement("div");
+  cuadro.classList.add("cuadro");
+
+  let comprado = inventario.includes(obj.nombre) && obj.tipo==="unica";
+
+  if(comprado){
+    cuadro.classList.add("bloqueado");
+  }
+
+  cuadro.innerHTML=`<img src="${obj.imagen}" class="objeto-img">`;
+
+  if(!comprado){
+    cuadro.onclick=()=>comprar(obj);
+  }
+
+  let nombre=document.createElement("div");
+  nombre.classList.add("nombre");
+  nombre.textContent=obj.nombre;
+
+  let precio=document.createElement("div");
+  precio.classList.add("precio");
+  if(comprado){
+    precio.textContent="Ya comprado";
+  }else{
+    precio.textContent=obj.precio+" monedas";
+  }
+
+  item.appendChild(cuadro);
+  item.appendChild(nombre);
+  item.appendChild(precio);
+
+  grid.appendChild(item);
+});
+
+/* ===== FUNCION COMPRAR ===== */
+function comprar(obj){
+  if(monedas<obj.precio){
+    alert("No tienes suficientes monedas.");
+    return;
+  }
+
+  monedas-=obj.precio;
+  localStorage.setItem("monedasJugador",monedas);
+
+  if(obj.tipo==="unica"){
+    inventario.push(obj.nombre);
+    localStorage.setItem("inventarioObjetos",JSON.stringify(inventario));
+  }
+
+  alert("Has comprado: " + obj.nombre);
+  location.reload();
+}
+</script>
+
+</body>
+</html>

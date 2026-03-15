@@ -1,98 +1,39 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Tienda de Mascotas</title>
-
 <style>
-
-/* ===== MENU BOTON ===== */
-
-.menu-toggle{
-position:fixed;
-top:20px;
-left:20px;
-font-size:28px;
-cursor:pointer;
-z-index:1001;
-color:gold;
-}
+/* ===== MENU ===== */
+.menu-toggle{ position:fixed; top:20px; left:20px; font-size:28px; cursor:pointer; z-index:1001; color:gold; }
 
 /* ===== SIDEBAR ===== */
+.sidebar{ position:fixed; top:0; left:-320px; width:300px; height:100%; background:#14110d; border-right:3px solid gold; padding-top:80px; transition:0.35s; z-index:1000; }
+.sidebar.active{ left:0; }
+.sidebar button{ display:block; width:85%; margin:15px auto; padding:12px; font-size:18px; background:linear-gradient(45deg,gold,darkgoldenrod); border:none; border-radius:10px; cursor:pointer; font-weight:bold; color:#2b1c0f; }
+.submenu{ display:none; margin-left:20px; }
+.submenu button{ font-size:15px; padding:8px; }
 
-.sidebar{
-position:fixed;
-top:0;
-left:-320px;
-width:300px;
-height:100%;
-background:#14110d;
-border-right:3px solid gold;
-padding-top:80px;
-transition:0.35s;
-z-index:1000;
-}
+/* ===== BODY ===== */body{
+  margin:0; 
+  font-family:Georgia,serif;
 
-.sidebar.active{
-left:0;
-}
+  background:linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url("tienda-fondo.png");
+  background-size:contain;       /* mantiene la imagen completa */
+  background-position:center;    
+  background-repeat:no-repeat;   /* evita que se repita */
+  background-attachment:fixed;
 
-.sidebar button{
-display:block;
-width:85%;
-margin:15px auto;
-padding:12px;
-font-size:18px;
-background:linear-gradient(45deg,gold,darkgoldenrod);
-border:none;
-border-radius:10px;
-cursor:pointer;
-font-weight:bold;
-color:#2b1c0f;
-}
-
-/* SUBMENU */
-
-.submenu{
-display:none;
-margin-left:20px;
-}
-
-.submenu button{
-font-size:15px;
-padding:8px;
-}
-
-/* ===== BODY ===== */
-body{
-margin:0;
-font-family:Georgia,serif;
-
-background:
-linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
-url("tienda-fondo.png");
-
-background-size:cover;
-background-position:center;
-background-attachment:fixed;
-
-color:#f5e6c8;
-text-align:center;
+  color:#f5e6c8; 
+  text-align:center;
 }
 
 
 /* ===== TITULO ===== */
+h1{ color:gold; margin-top:40px; }
 
-h1{
-color:gold;
-margin-top:40px;
-}
-
-/* GRID */
-
+/* ===== GRID ===== */
 .grid{
 display:grid;
 grid-template-columns:repeat(5,1fr);
@@ -101,36 +42,37 @@ max-width:900px;
 margin:40px auto;
 }
 
-/* CUADRO */
+/* ===== ITEM ===== */
+.item{
+display:flex;
+flex-direction:column;
+align-items:center;
+text-align:center;
+}
 
+/* ===== CUADRO ===== */
 .cuadro{
-height:130px;
+width:120px;
+height:120px;
 background:rgba(0,0,0,0.5);
 border:3px solid #8b6f47;
 border-radius:15px;
 display:flex;
-flex-direction:column;
 align-items:center;
 justify-content:center;
-cursor:pointer;
 transition:.25s;
+font-size:50px;
+color:red;
 }
+.cuadro:hover{ transform:scale(1.05); }
+.cuadro img{ max-width:100%; max-height:100%; }
 
-.cuadro:hover{
-transform:scale(1.05);
-}
+/* ===== TEXTO ===== */
+.nombre{ margin-top:5px; font-size:14px; }
+.precio{ font-size:12px; color:#ffdd77; margin-bottom:5px; }
 
-/* TEXTO */
-
-.nombre{
-margin-top:5px;
-font-size:14px;
-}
-
-/* BOTON */
-
+/* ===== BOTON ===== */
 button{
-margin-top:8px;
 padding:5px 12px;
 border:none;
 border-radius:8px;
@@ -138,219 +80,144 @@ background:gold;
 cursor:pointer;
 font-weight:bold;
 }
-
-/* ERROR */
-
-.error{
-background:#300;
-border:3px solid red;
-cursor:not-allowed;
-}
-
-/* YA TIENES */
-
-.tienes{
-background:#123012;
-border:3px solid lime;
-}
-
 </style>
 </head>
-
 <body>
-
-<!-- BOTON MENU -->
 
 <div class="menu-toggle" onclick="toggleMenu()">☰</div>
 
-<!-- SIDEBAR -->
-
 <div class="sidebar" id="sidebar">
-
 <button onclick="ir('inicio2.html')">Inicio</button>
-
 <button onclick="toggleTienda()">Tienda ▾</button>
-
 <div class="submenu" id="submenuTienda">
 <button onclick="ir('tienda-mascotas.html')">Mascotas</button>
 <button onclick="ir('tienda-objetos.html')">Objetos</button>
 <button onclick="ir('tienda-venta.html')">Venta</button>
 <button onclick="ir('tienda-negra.html')">Tienda Negra</button>
 </div>
-
 <button onclick="toggleEquipar()">Equipar ▾</button>
-
 <div class="submenu" id="submenuEquipar">
 <button onclick="ir('equipar-mascota.html')">Mascota</button>
 <button onclick="ir('equipar-titulo.html')">Título</button>
 <button onclick="ir('equipar-personaje.html')">Personaje</button>
 </div>
-
 <button onclick="ir('titulos.html')">Títulos</button>
-
 <button onclick="ir('misiones.html')">Misiones</button>
-
 <button onclick="ir('clasificacion.html')">Clasificación</button>
-
 <button onclick="ir('creditos.html')">Créditos</button>
-
 </div>
 
 <h1>🐾 Tienda de Mascotas</h1>
-
 <h3>Monedas: <span id="monedas"></span></h3>
 
 <div class="grid" id="grid"></div>
 
 <script>
+function toggleMenu(){ document.getElementById("sidebar").classList.toggle("active"); }
+function toggleEquipar(){ let menu=document.getElementById("submenuEquipar"); menu.style.display = menu.style.display==="block"?"none":"block"; }
+function toggleTienda(){ let menu=document.getElementById("submenuTienda"); menu.style.display = menu.style.display==="block"?"none":"block"; }
+function ir(pagina){ if(window.location.pathname.includes(pagina)) return; window.location.href=pagina; }
 
-/* ===== MENU ===== */
-
-function toggleMenu(){
-document.getElementById("sidebar").classList.toggle("active");
-}
-
-function toggleEquipar(){
-let menu=document.getElementById("submenuEquipar");
-menu.style.display = menu.style.display==="block"?"none":"block";
-}
-
-function toggleTienda(){
-let menu=document.getElementById("submenuTienda");
-menu.style.display = menu.style.display==="block"?"none":"block";
-}
-
-function ir(pagina){
-
-/* evita recargar si ya estas en la pagina */
-
-if(window.location.pathname.includes(pagina)){
-return;
-}
-
-window.location.href=pagina;
-
-}
+/* ===== DATOS ===== */
+let monedas=parseInt(localStorage.getItem("monedasJugador")) || 0;
+let inventario=JSON.parse(localStorage.getItem("inventarioMascotas")) || [];
+document.getElementById("monedas").textContent=monedas;
 
 /* ===== MASCOTAS ===== */
-
 let mascotas=[
-
-"Slime",
-"Lobo",
-"Gato",
-"Pájaro",
-"Araña",
-
-"Zorro",
-"Slime Demon",
-"Lobo Demon",
-"Gato Demon",
-"Pájaro Demon",
-
-"Zorro Demon",
-"Dragón Rojo",
-"Dragón Blanco",
-"Dragón Negro",
-"Fénix",
-
-"Fenrir",
-"Mujer Demonio Zorra",
-"Mujer Demonio Gato",
-"Mujer Demonio Loba",
-"Mujer Demonio"
-
+{nombre:"Slime",imagen:"slime.png"},
+{nombre:"Lobo",imagen:"lobo.png"},
+{nombre:"Gato",imagen:"gato.png"},
+{nombre:"Pájaro",imagen:"pajaro.png"},
+{nombre:"Araña",imagen:"arana.png"},
+{nombre:"Zorro",imagen:"zorro.png"},
+{nombre:"Slime Demon",imagen:"slime_demon.png"},
+{nombre:"Lobo Demon",imagen:"lobo_demon.png"},
+{nombre:"Gato Demon",imagen:"gato_demon.png"},
+{nombre:"Pájaro Demon",imagen:"pajaro_demon.png"},
+{nombre:"Zorro Demon",imagen:"zorro_demon.png"},
+{nombre:"Dragón Rojo",imagen:"dragon_rojo.png"},
+{nombre:"Dragón Blanco",imagen:"dragon_blanco.png"},
+{nombre:"Dragón Negro",imagen:"dragon_negro.png"},
+{nombre:"Fénix",imagen:"fenix.png"},
+{nombre:"Fenrir",imagen:"fenrir.png"},
+{nombre:"Mujer Demonio Zorra",imagen:"mujer_zorra.png"},
+{nombre:"Mujer Demonio Gato",imagen:"mujer_gato.png"},
+{nombre:"Mujer Demonio Loba",imagen:"mujer_loba.png"},
+{nombre:"Mujer Demonio",imagen:"mujer_demonio.png"}
 ];
-
-/* ===== PRECIOS ===== */
 
 let precios=[
 50,80,80,60,90,
 120,200,220,220,200,
-250,500,500,600,700
+250,500,500,600,700,
+800,900,1000,10000,5000
 ];
 
-/* ===== DATOS JUGADOR ===== */
-
-let monedas=parseInt(localStorage.getItem("monedasJugador")) || 0;
-
-let inventario=JSON.parse(localStorage.getItem("inventarioMascotas")) || [];
-
-document.getElementById("monedas").textContent=monedas;
-
-/* ===== GRID ===== */
-
+/* ===== CREAR GRID ===== */
 let grid=document.getElementById("grid");
 
-mascotas.forEach((nombre,i)=>{
+mascotas.forEach((m,i)=>{
+  let item=document.createElement("div");
+  item.classList.add("item");
 
-let cuadro=document.createElement("div");
+  let cuadro=document.createElement("div");
+  cuadro.classList.add("cuadro");
 
-cuadro.classList.add("cuadro");
+  if(i>=15){ // ERROR
+    cuadro.textContent="❌";
+    item.appendChild(cuadro);
+    let nombre=document.createElement("div");
+    nombre.classList.add("nombre");
+    nombre.textContent=m.nombre;
+    let precio=document.createElement("div");
+    precio.classList.add("precio");
+    precio.textContent="ERROR";
+    item.appendChild(nombre);
+    item.appendChild(precio);
+  }
+  else if(inventario.includes(m.nombre)){ // YA COMPRADO
+    cuadro.innerHTML=`<img src="${m.imagen}">`;
+    cuadro.style.border="3px solid lime";
+    item.appendChild(cuadro);
+    let nombre=document.createElement("div");
+    nombre.classList.add("nombre");
+    nombre.textContent=m.nombre;
+    let precio=document.createElement("div");
+    precio.classList.add("precio");
+    precio.textContent="YA TIENES";
+    item.appendChild(nombre);
+    item.appendChild(precio);
+  }
+  else{ // DISPONIBLE
+    cuadro.innerHTML=`<img src="${m.imagen}">`;
+    item.appendChild(cuadro);
+    let nombre=document.createElement("div");
+    nombre.classList.add("nombre");
+    nombre.textContent=m.nombre;
+    let precio=document.createElement("div");
+    precio.classList.add("precio");
+    precio.textContent=precios[i]+" monedas";
+    item.appendChild(nombre);
+    item.appendChild(precio);
+    let btn=document.createElement("button");
+    btn.textContent="Comprar";
+    btn.onclick=()=>comprar(m.nombre,precios[i]);
+    item.appendChild(btn);
+  }
 
-if(i>=15){
-
-cuadro.classList.add("error");
-
-cuadro.innerHTML=`
-<div>❌</div>
-<div class="nombre">${nombre}</div>
-<div>ERROR</div>
-`;
-
-}
-
-else if(inventario.includes(nombre)){
-
-cuadro.classList.add("tienes");
-
-cuadro.innerHTML=`
-<div>🐾</div>
-<div class="nombre">${nombre}</div>
-<div>YA TIENES</div>
-`;
-
-}
-
-else{
-
-let precio=precios[i];
-
-cuadro.innerHTML=`
-<div>🐾</div>
-<div class="nombre">${nombre}</div>
-<button>Comprar (${precio})</button>
-`;
-
-cuadro.querySelector("button").onclick=()=>comprar(nombre,precio);
-
-}
-
-grid.appendChild(cuadro);
-
+  grid.appendChild(item);
 });
 
 /* ===== COMPRAR ===== */
-
 function comprar(nombre,precio){
-
-if(monedas<precio){
-alert("No tienes suficientes monedas");
-return;
+  if(monedas<precio){ alert("No tienes suficientes monedas"); return; }
+  monedas-=precio;
+  inventario.push(nombre);
+  localStorage.setItem("monedasJugador",monedas);
+  localStorage.setItem("inventarioMascotas",JSON.stringify(inventario));
+  location.reload();
 }
-
-monedas-=precio;
-
-inventario.push(nombre);
-
-localStorage.setItem("monedasJugador",monedas);
-localStorage.setItem("inventarioMascotas",JSON.stringify(inventario));
-
-location.reload();
-
-}
-
 </script>
-
 </body>
 </html>
