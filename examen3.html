@@ -1,301 +1,89 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Examen Final - Gremio</title>
-
-<style>
-
-body{
-margin:0;
-font-family:'Georgia', serif;
-
-background:
-linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
-url("fondo.jpg");
-
-background-size:cover;
-background-position:center;
-background-attachment:fixed;
-
-color:#3b2b15;
-}
-
-.contenedor{
-
-max-width:900px;
-margin:40px auto;
-padding:60px 40px;
-
-text-align:center;
-
-background:url("pergamino.png");
-background-size:100% 100%;
-background-repeat:no-repeat;
-
-}
-
-h1{
-font-size:45px;
-margin-bottom:30px;
-}
-
-.preguntas-grid{
-
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:30px;
-
-margin-top:30px;
-
-}
-
-.pregunta{
-padding:10px;
-}
-
-select{
-
-width:100%;
-padding:10px;
-
-font-size:16px;
-
-border-radius:6px;
-border:1px solid #aaa;
-
-margin-top:10px;
-
-}
-
-button{
-
-margin-top:50px;
-
-padding:15px 40px;
-
-font-size:18px;
-font-weight:bold;
-
-background:linear-gradient(45deg,gold,darkgoldenrod);
-
-border:none;
-border-radius:10px;
-
-cursor:pointer;
-
-transition:0.3s;
-
-}
-
-button:hover{
-
-transform:scale(1.05);
-box-shadow:0 0 10px gold;
-
-}
-
-@media (max-width:700px){
-
-.preguntas-grid{
-grid-template-columns:1fr;
-}
-
-}
-
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen Final - Gremio</title>
+    <style>
+        body { margin:0; font-family:'Georgia', serif; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url("fondo.jpg"); background-size:cover; background-position:center; background-attachment:fixed; color:#3b2b15; }
+        .contenedor { max-width:900px; margin:40px auto; padding:60px 40px; text-align:center; background:url("pergamino.png"); background-size:100% 100%; background-repeat:no-repeat; }
+        h1 { font-size:45px; margin-bottom:30px; }
+        .preguntas-grid { display:grid; grid-template-columns:1fr 1fr; gap:30px; margin-top:30px; }
+        .pregunta { padding:10px; }
+        select { width:100%; padding:10px; font-size:16px; border-radius:6px; border:1px solid #aaa; margin-top:10px; }
+        button { margin-top:50px; padding:15px 40px; font-size:18px; font-weight:bold; background:linear-gradient(45deg,gold,darkgoldenrod); border:none; border-radius:10px; cursor:pointer; transition:0.3s; }
+        button:hover { transform:scale(1.05); box-shadow:0 0 10px gold; }
+        @media (max-width:700px) { .preguntas-grid { grid-template-columns:1fr; } }
+    </style>
 </head>
-
 <body>
 
-<audio id="musicaExamen" autoplay loop>
-<source src="musica-examen.mp3" type="audio/mpeg">
-</audio>
+<audio id="sonidoBoton"><source src="click.mp3" type="audio/mpeg"></audio>
+<audio id="musicaExamen" autoplay loop><source src="musica-examen.mp3" type="audio/mpeg"></audio>
 
 <div class="contenedor">
-
-<h1>⚔ Examen Oficial - Parte Final ⚔</h1>
-
-<form id="formulario">
-
-<div class="preguntas-grid">
-
-<div class="pregunta">
-<h3>Un antiguo rey resucita frente a ti.</h3>
-<select class="respuesta" required>
-<option value="">Elige tu acción</option>
-<option value="4">Analizo su magia</option>
-<option value="3">Coordino estrategia</option>
-<option value="2">Ataco sin pensar</option>
-<option value="1">Retrocedo</option>
-</select>
-</div>
-
-<div class="pregunta">
-<h3>Tu arma comienza a romperse.</h3>
-<select class="respuesta" required>
-<option value="">Elige tu acción</option>
-<option value="4">Improviso estrategia</option>
-<option value="3">Uso magia alternativa</option>
-<option value="2">Sigo golpeando</option>
-<option value="1">Me desespero</option>
-</select>
-</div>
-
-<div class="pregunta">
-<h3>Un demonio ofrece un pacto.</h3>
-<select class="respuesta" required>
-<option value="">Elige tu acción</option>
-<option value="4">Investigo condiciones</option>
-<option value="3">Finjo aceptar</option>
-<option value="2">Acepto sin pensar</option>
-<option value="1">Lo ignoro</option>
-</select>
-</div>
-
-<div class="pregunta">
-<h3>Tu equipo está agotado.</h3>
-<select class="respuesta" required>
-<option value="">Elige tu acción</option>
-<option value="4">Organizo descanso</option>
-<option value="3">Cambio formación</option>
-<option value="2">Sigo avanzando</option>
-<option value="1">Pierdo esperanza</option>
-</select>
-</div>
-
-<div class="pregunta">
-<h3>Una sombra intenta poseerte.</h3>
-<select class="respuesta" required>
-<option value="">Elige tu acción</option>
-<option value="4">Resisto mentalmente</option>
-<option value="3">Uso magia defensiva</option>
-<option value="2">La enfrento</option>
-<option value="1">Entro en pánico</option>
-</select>
-</div>
-
-<div class="pregunta">
-<h3>Encuentras un tesoro maldito.</h3>
-<select class="respuesta" required>
-<option value="">Elige tu acción</option>
-<option value="4">Rompo la maldición</option>
-<option value="3">Lo estudio primero</option>
-<option value="2">Lo tomo rápido</option>
-<option value="1">Lo dejo</option>
-</select>
-</div>
-
-<div class="pregunta">
-<h3>Un aliado te traiciona.</h3>
-<select class="respuesta" required>
-<option value="">Elige tu acción</option>
-<option value="4">Busco explicación</option>
-<option value="3">Lo enfrento estratégicamente</option>
-<option value="2">Ataco de inmediato</option>
-<option value="1">Dudo</option>
-</select>
-</div>
-
-<div class="pregunta">
-<h3>Un coloso bloquea el camino.</h3>
-<select class="respuesta" required>
-<option value="">Elige tu acción</option>
-<option value="4">Busco punto débil</option>
-<option value="3">Trabajo en equipo</option>
-<option value="2">Ataque frontal</option>
-<option value="1">Evito combate</option>
-</select>
-</div>
-
-<div class="pregunta">
-<h3>El cielo se oscurece mágicamente.</h3>
-<select class="respuesta" required>
-<option value="">Elige tu acción</option>
-<option value="4">Analizo fenómeno</option>
-<option value="3">Protejo aliados</option>
-<option value="2">Lanzo ataque masivo</option>
-<option value="1">Entro en miedo</option>
-</select>
-</div>
-
-<div class="pregunta">
-<h3>El Dragón Oscuro definitivo aparece (ELIJE BIEN).</h3>
-<select class="respuesta" required>
-<option value="">Elige tu acción</option>
-<option value="4">Estudio su patrón</option>
-<option value="3">Coordino equipo</option>
-<option value="2">Cargo directo</option>
-<option value="20">Dudo</option>
-</select>
-</div>
-
-</div>
-
-<button type="submit" onclick="sonidoClick()">Finalizar Examen</button>
-
-</form>
-
+    <h1>⚔ Examen Oficial - Parte Final ⚔</h1>
+    <form id="formulario">
+        <div class="preguntas-grid">
+            <div class="pregunta"><h3>Un antiguo rey resucita.</h3><select class="respuesta" required><option value="">Elige tu acción</option><option value="4">Analizo su magia</option><option value="3">Coordino estrategia</option><option value="2">Ataco sin pensar</option><option value="1">Retrocedo</option></select></div>
+            <div class="pregunta"><h3>Tu arma se rompe.</h3><select class="respuesta" required><option value="">Elige tu acción</option><option value="4">Improviso estrategia</option><option value="3">Uso magia alternativa</option><option value="2">Sigo golpeando</option><option value="1">Me desespero</option></select></div>
+            <div class="pregunta"><h3>Un demonio ofrece un pacto.</h3><select class="respuesta" required><option value="">Elige tu acción</option><option value="4">Investigo condiciones</option><option value="3">Finjo aceptar</option><option value="2">Acepto sin pensar</option><option value="1">Lo ignoro</option></select></div>
+            <div class="pregunta"><h3>Tu equipo está agotado.</h3><select class="respuesta" required><option value="">Elige tu acción</option><option value="4">Organizo descanso</option><option value="3">Cambio formación</option><option value="2">Sigo avanzando</option><option value="1">Pierdo esperanza</option></select></div>
+            <div class="pregunta"><h3>Una sombra intenta poseerte.</h3><select class="respuesta" required><option value="">Elige tu acción</option><option value="4">Resisto mentalmente</option><option value="3">Uso magia defensiva</option><option value="2">La enfrento</option><option value="1">Entro en pánico</option></select></div>
+            <div class="pregunta"><h3>Tesoro maldito.</h3><select class="respuesta" required><option value="">Elige tu acción</option><option value="4">Rompo la maldición</option><option value="3">Lo estudio primero</option><option value="2">Lo tomo rápido</option><option value="1">Lo dejo</option></select></div>
+            <div class="pregunta"><h3>Un aliado te traiciona.</h3><select class="respuesta" required><option value="">Elige tu acción</option><option value="4">Busco explicación</option><option value="3">Lo enfrento estratégicamente</option><option value="2">Ataco de inmediato</option><option value="1">Dudo</option></select></div>
+            <div class="pregunta"><h3>Un coloso bloquea el camino.</h3><select class="respuesta" required><option value="">Elige tu acción</option><option value="4">Busco punto débil</option><option value="3">Trabajo en equipo</option><option value="2">Ataque frontal</option><option value="1">Evito combate</option></select></div>
+            <div class="pregunta"><h3>Cielo oscuro.</h3><select class="respuesta" required><option value="">Elige tu acción</option><option value="4">Analizo fenómeno</option><option value="3">Protejo aliados</option><option value="2">Lanzo ataque masivo</option><option value="1">Entro en miedo</option></select></div>
+            <div class="pregunta"><h3>Dragón Oscuro (¡ELIJE BIEN!).</h3><select class="respuesta" required><option value="">Elige tu acción</option><option value="4">Estudio su patrón</option><option value="3">Coordino equipo</option><option value="2">Cargo directo</option><option value="20">Dudo</option></select></div>
+        </div>
+        <button type="submit" onclick="sonidoClick()">Finalizar Examen</button>
+    </form>
 </div>
 
 <script>
+    const formulario = document.getElementById("formulario");
+    formulario.addEventListener("submit", function(e){
+        e.preventDefault();
+        const respuestas = document.querySelectorAll(".respuesta");
+        let puntosExtra = 0;
+        
+        for(let r of respuestas){
+            if(r.value === ""){
+                alert("Debes responder todas las preguntas.");
+                return;
+            }
+            puntosExtra += parseInt(r.value);
+        }
 
-const formulario=document.getElementById("formulario");
+        let puntosActuales = parseInt(localStorage.getItem("puntosJugador")) || 0;
+        localStorage.setItem("puntosJugador", puntosActuales + puntosExtra);
+        localStorage.setItem("licenciaCreada", "si"); // Marcamos que el examen terminó
+        
+        window.location.href = "licencia.html";
+    });
 
-formulario.addEventListener("submit",function(e){
+    // Música y Sonido
+    window.addEventListener("load", function(){
+        let musica = document.getElementById("musicaExamen");
+        if(musica){
+            musica.volume = 0.6;
+            let tiempoGuardado = localStorage.getItem("tiempoMusica") || 0;
+            musica.currentTime = parseFloat(tiempoGuardado);
+            musica.play().catch(()=>{});
+            
+            setInterval(() => {
+                localStorage.setItem("tiempoMusica", musica.currentTime);
+            }, 500);
+        }
+    });
 
-e.preventDefault();
-
-const respuestas=document.querySelectorAll(".respuesta");
-
-let puntosExtra=0;
-
-for(let r of respuestas){
-
-if(r.value===""){
-alert("Debes responder todas las preguntas.");
-return;
-}
-
-puntosExtra+=parseInt(r.value);
-
-}
-
-let puntosActuales=parseInt(localStorage.getItem("puntosJugador"))||0;
-
-localStorage.setItem("puntosJugador",puntosActuales+puntosExtra);
-
-window.location.href="licencia.html";
-
-});
-
-/* MUSICA DEL EXAMEN */
-
-window.addEventListener("load", function(){
-
-let musica = document.getElementById("musicaExamen");
-
-if(musica){
-musica.volume = 0.6;
-musica.play().catch(()=>{});
-}
-
-});
-
-function sonidoClick(){
-
-let sonido = document.getElementById("sonidoBoton");
-
-if(sonido){
-sonido.currentTime = 0;
-sonido.play();
-}
-
-}
-
+    function sonidoClick(){
+        let sonido = document.getElementById("sonidoBoton");
+        if(sonido){
+            sonido.currentTime = 0;
+            sonido.play();
+        }
+    }
 </script>
 
 </body>

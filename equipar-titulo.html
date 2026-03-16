@@ -1,348 +1,114 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipar Título</title>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="menu.css">
+    <script src="menu.js" defer></script>
 
-<title>Equipar Título</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Georgia, serif;
+            background: #1e1b16;
+            color: #f5e6c8;
+            text-align: center;
+        }
 
-<style>
+        h1 { color: gold; margin-top: 80px; }
 
-/* ===== MENU ===== */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            max-width: 900px;
+            margin: 40px auto;
+        }
 
-.menu-toggle{
-position:fixed;
-top:20px;
-left:20px;
-font-size:28px;
-cursor:pointer;
-color:gold;
-z-index:1001;
-}
+        .cuadro {
+            height: 120px;
+            background: rgba(0,0,0,0.5);
+            border: 3px solid #8b6f47;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: .25s;
+        }
 
-.sidebar{
-position:fixed;
-top:0;
-left:-320px;
-width:300px;
-height:100%;
-background:#14110d;
-border-right:3px solid gold;
-padding-top:80px;
-transition:.35s;
-z-index:1000;
-}
-
-.sidebar.active{
-left:0;
-}
-
-.sidebar button{
-display:block;
-width:85%;
-margin:15px auto;
-padding:12px;
-font-size:18px;
-background:linear-gradient(45deg,gold,darkgoldenrod);
-border:none;
-border-radius:10px;
-cursor:pointer;
-font-weight:bold;
-color:#2b1c0f;
-}
-
-.submenu{
-display:none;
-margin-left:20px;
-}
-
-.submenu button{
-font-size:15px;
-padding:8px;
-}
-
-/* ===== BODY ===== */
-
-body{
-margin:0;
-font-family:Georgia,serif;
-background:#1e1b16;
-color:#f5e6c8;
-text-align:center;
-}
-
-h1{
-color:gold;
-margin-top:40px;
-}
-
-/* ===== GRID ===== */
-
-.grid{
-display:grid;
-grid-template-columns:repeat(5,1fr);
-gap:20px;
-max-width:900px;
-margin:40px auto;
-}
-
-/* ===== CUADROS ===== */
-
-.cuadro{
-height:120px;
-background:rgba(0,0,0,0.5);
-border:3px solid #8b6f47;
-border-radius:15px;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-cursor:pointer;
-transition:.25s;
-}
-
-.cuadro:hover{
-transform:scale(1.05);
-}
-
-/* ===== BLOQUEADO ===== */
-
-.bloqueado{
-opacity:.4;
-cursor:not-allowed;
-}
-
-.candado{
-font-size:30px;
-}
-
-/* ===== EQUIPADO ===== */
-
-.equipado{
-border:3px solid lime;
-box-shadow:0 0 10px lime;
-}
-
-.nombre{
-margin-top:5px;
-font-size:13px;
-}
-
-</style>
+        .cuadro:hover { transform: scale(1.05); }
+        .bloqueado { opacity: .4; cursor: not-allowed; }
+        .equipado { border: 3px solid lime; box-shadow: 0 0 10px lime; }
+        .nombre { margin-top: 5px; font-size: 13px; }
+        .candado { font-size: 30px; }
+    </style>
 </head>
-
 <body>
 
-<div class="menu-toggle" onclick="toggleMenu()">☰</div>
-
-<div class="sidebar" id="sidebar">
-
-<button onclick="ir('inicio2.html')">Inicio</button>
-
-<button onclick="toggleTienda()">Tienda ▾</button>
-
-<div class="submenu" id="submenuTienda">
-<button onclick="ir('tienda-mascotas.html')">Mascotas</button>
-<button onclick="ir('tienda-objetos.html')">Objetos</button>
-<button onclick="ir('tienda-venta.html')">Venta</button>
-<button onclick="ir('tienda-negra.html')">Tienda Negra</button>
-</div>
-
-<button onclick="toggleEquipar()">Equipar ▾</button>
-
-<div class="submenu" id="submenuEquipar">
-<button onclick="ir('equipar-mascota.html')">Mascota</button>
-<button onclick="ir('equipar-titulo.html')">Título</button>
-<button onclick="ir('equipar-personaje.html')">Personaje</button>
-</div>
-
-<button onclick="ir('titulos.html')">Guía de Títulos</button>
-<button onclick="ir('misiones.html')">Misiones</button>
-<button onclick="ir('clasificacion.html')">Clasificación</button>
-<button onclick="ir('creditos.html')">Créditos</button>
-
-</div>
-
-<h1>👑 Equipar Título</h1>
-
-<h3>Título equipado: <span id="tituloActual">Ninguno</span></h3>
-
-<div class="grid" id="gridTitulos"></div>
-
-<script>
-
-/* ===== MENU ===== */
-
-function toggleMenu(){
-document.getElementById("sidebar").classList.toggle("active");
-}
-
-function toggleEquipar(){
-let menu=document.getElementById("submenuEquipar");
-menu.style.display = menu.style.display==="block"?"none":"block";
-}
-
-function toggleTienda(){
-let menu=document.getElementById("submenuTienda");
-menu.style.display = menu.style.display==="block"?"none":"block";
-}
-
-function ir(pagina){
-if(window.location.pathname.includes(pagina)) return;
-window.location.href=pagina;
-}
-
-/* ===== LISTA TITULOS ===== */
-
-let titulos=[
-
-"Matador de Slime",
-"Cazador de Lobos",
-"Exterminador de Arañas",
-"Matador de Bestias",
-
-"Cazador de Demonios",
-"Cazador de Slime Demonio",
-"Cazador de Lobo Demonio",
-"Cazador de Araña Demonio",
-
-"Cazador de Dragón Rojo",
-"Cazador de Dragón Negro",
-"Matador de Dragones",
-
-"Mazmorra Final",
-"Matador Profesional",
-
-"Aventurero",
-
-"Comprador de Mascotas",
-"Loco de las Mascotas",
-"Millonario",
-"Comprador de Tienda Oscura",
-"Invocador de Demonio",
-"Domador de Fenrir",
-"Rango S",
-
-"Miembro Demoníaco",
-"ADD Demonio",
-"Rey Demonio"
-
-];
-
-/* ===== DATOS ===== */
-
-let inventarioTitulos=JSON.parse(localStorage.getItem("inventarioTitulos")) || [];
-let mascotas=JSON.parse(localStorage.getItem("inventarioMascotas")) || [];
-let monedas=parseInt(localStorage.getItem("monedasJugador")) || 0;
-let puntos=parseInt(localStorage.getItem("puntosJugador")) || 0;
-
-let equipado=localStorage.getItem("tituloJugador");
-
-/* ===== FUNCION DESBLOQUEAR ===== */
-
-function desbloquear(titulo){
-if(!inventarioTitulos.includes(titulo)){
-inventarioTitulos.push(titulo);
-}
-}
-
-/* ===== DESBLOQUEO AUTOMATICO ===== */
-
-/* TODOS TIENEN ESTE AL TERMINAR EL EXAMEN */
-
-if(localStorage.getItem("licenciaCreada")==="si"){
-desbloquear("Aventurero");
-}
-
-/* OTROS TITULOS */
-
-if(mascotas.length>=1){
-desbloquear("Comprador de Mascotas");
-}
-
-if(mascotas.length>=20){
-desbloquear("Loco de las Mascotas");
-}
-
-if(mascotas.includes("Fenrir")){
-desbloquear("Domador de Fenrir");
-}
-
-if(
-mascotas.includes("Mujer Demonio") ||
-mascotas.includes("Mujer Demonio Gato") ||
-mascotas.includes("Mujer Demonio Loba") ||
-mascotas.includes("Mujer Demonio Zorra")
-){
-desbloquear("Invocador de Demonio");
-}
-
-if(monedas>=1000){
-desbloquear("Millonario");
-}
-
-if(puntos>=85){
-desbloquear("Rango S");
-}
-
-localStorage.setItem("inventarioTitulos",JSON.stringify(inventarioTitulos));
-
-document.getElementById("tituloActual").textContent=equipado || "Ninguno";
-
-/* ===== CREAR GRID ===== */
-
-let grid=document.getElementById("gridTitulos");
-
-titulos.forEach(nombre=>{
-
-let cuadro=document.createElement("div");
-
-cuadro.classList.add("cuadro");
-
-let tienes=inventarioTitulos.includes(nombre);
-
-if(!tienes){
-
-cuadro.classList.add("bloqueado");
-
-cuadro.innerHTML=`
-<div class="candado">🔒</div>
-<div class="nombre">${nombre}</div>
-`;
-
-}
-
-else{
-
-cuadro.innerHTML=`
-<div>👑</div>
-<div class="nombre">${nombre}</div>
-`;
-
-cuadro.onclick=()=>equipar(nombre);
-
-}
-
-if(nombre===equipado){
-cuadro.classList.add("equipado");
-}
-
-grid.appendChild(cuadro);
-
-});
-
-/* ===== EQUIPAR ===== */
-
-function equipar(nombre){
-
-localStorage.setItem("tituloJugador",nombre);
-
-location.reload();
-
-}
-
-</script>
-
+    <h1>👑 Equipar Título</h1>
+    <h3>Título equipado: <span id="tituloActual">Ninguno</span></h3>
+
+    <div class="grid" id="gridTitulos"></div>
+
+    <script>
+        const titulos = [
+            "Matador de Slime", "Cazador de Lobos", "Exterminador de Arañas", "Matador de Bestias",
+            "Cazador de Demonios", "Cazador de Slime Demonio", "Cazador de Lobo Demonio", "Cazador de Araña Demonio",
+            "Cazador de Dragón Rojo", "Cazador de Dragón Negro", "Matador de Dragones",
+            "Mazmorra Final", "Matador Profesional", "Aventurero",
+            "Comprador de Mascotas", "Loco de las Mascotas", "Millonario", "Comprador de Tienda Oscura",
+            "Invocador de Demonio", "Domador de Fenrir", "Rango S",
+            "Miembro Demoníaco", "ADD Demonio", "Rey Demonio"
+        ];
+
+        let inventarioTitulos = JSON.parse(localStorage.getItem("inventarioTitulos")) || [];
+        let mascotas = JSON.parse(localStorage.getItem("inventarioMascotas")) || [];
+        let monedas = parseInt(localStorage.getItem("monedasJugador")) || 0;
+        let puntos = parseInt(localStorage.getItem("puntosJugador")) || 0;
+        let equipado = localStorage.getItem("tituloJugador");
+
+        // Lógica de desbloqueo automático
+        function desbloquear(titulo) {
+            if (!inventarioTitulos.includes(titulo)) inventarioTitulos.push(titulo);
+        }
+
+        if (localStorage.getItem("licenciaCreada") === "si") desbloquear("Aventurero");
+        if (mascotas.length >= 1) desbloquear("Comprador de Mascotas");
+        if (mascotas.length >= 20) desbloquear("Loco de las Mascotas");
+        if (mascotas.includes("Fenrir")) desbloquear("Domador de Fenrir");
+        if (["Mujer Demonio", "Mujer Demonio Gato", "Mujer Demonio Loba", "Mujer Demonio Zorra"].some(m => mascotas.includes(m))) desbloquear("Invocador de Demonio");
+        if (monedas >= 1000) desbloquear("Millonario");
+        if (puntos >= 85) desbloquear("Rango S");
+
+        localStorage.setItem("inventarioTitulos", JSON.stringify(inventarioTitulos));
+        document.getElementById("tituloActual").textContent = equipado || "Ninguno";
+
+        const grid = document.getElementById("gridTitulos");
+
+        titulos.forEach(nombre => {
+            let tiene = inventarioTitulos.includes(nombre);
+            let esEquipado = nombre === equipado;
+            
+            let cuadro = document.createElement("div");
+            cuadro.className = `cuadro ${tiene ? '' : 'bloqueado'} ${esEquipado ? 'equipado' : ''}`;
+            
+            cuadro.innerHTML = `
+                <div class="${tiene ? '' : 'candado'}">${tiene ? '👑' : '🔒'}</div>
+                <div class="nombre">${nombre}</div>
+            `;
+            
+            if (tiene) cuadro.onclick = () => equipar(nombre);
+            grid.appendChild(cuadro);
+        });
+
+        function equipar(nombre) {
+            localStorage.setItem("tituloJugador", nombre);
+            location.reload();
+        }
+    </script>
 </body>
 </html>

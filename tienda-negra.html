@@ -1,306 +1,114 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda Negra</title>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="menu.css">
+    <script src="menu.js" defer></script>
 
-<title>Tienda Negra</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Georgia, serif;
+            color: #ffdddd;
+            text-align: center;
+            background-image: url("tienda-negra-fondo.png");
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
 
-<style>
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.65);
+            z-index: -1;
+        }
 
-/* ===== MENU ===== */
+        h1 { color: red; margin-top: 80px; }
 
-.menu-toggle{
-position:fixed;
-top:20px;
-left:20px;
-font-size:28px;
-cursor:pointer;
-color:red;
-z-index:1001;
-}
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            max-width: 900px;
+            margin: 40px auto;
+        }
 
-.sidebar{
-position:fixed;
-top:0;
-left:-320px;
-width:300px;
-height:100%;
-background:#0b0000;
-border-right:3px solid red;
-padding-top:80px;
-transition:.35s;
-z-index:1000;
-}
+        .item { display: flex; flex-direction: column; align-items: center; }
 
-.sidebar.active{
-left:0;
-}
+        .cuadro {
+            width: 120px; height: 120px;
+            background: rgba(0,0,0,0.8);
+            border: 3px solid #660000;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: .25s;
+        }
 
-.sidebar button{
-display:block;
-width:85%;
-margin:15px auto;
-padding:12px;
-font-size:18px;
-background:linear-gradient(45deg,#440000,#880000);
-border:none;
-border-radius:10px;
-cursor:pointer;
-font-weight:bold;
-color:white;
-}
+        .cuadro:hover { transform: scale(1.05); border-color: red; }
+        .bloqueado { opacity: .5; cursor: not-allowed; }
+        .personaje-img { width: 70px; image-rendering: pixelated; }
 
-.submenu{
-display:none;
-margin-left:20px;
-}
-
-.submenu button{
-font-size:15px;
-padding:8px;
-}
-
-/* ===== BODY ===== */
-
-body{
-  margin:0;
-  font-family:Georgia,serif;
-  color:#ffdddd;
-  text-align:center;
-
-  /* FONDO */
-  background-image:url("tienda-negra-fondo.png");
-  background-size:contain;         /* Imagen siempre completa */
-  background-position:center;
-  background-repeat:no-repeat;
-  background-attachment:fixed;
-}
-
-/* OSCURECER UN POCO EL FONDO */
-
-body::before{
-content:"";
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.65);
-z-index:-1;
-}
-
-h1{
-color:red;
-margin-top:40px;
-}
-
-/* ===== GRID ===== */
-
-.grid{
-display:grid;
-grid-template-columns:repeat(5,1fr);
-gap:20px;
-max-width:900px;
-margin:40px auto;
-}
-
-/* ===== ITEM COMPLETO ===== */
-
-.item{
-display:flex;
-flex-direction:column;
-align-items:center;
-}
-
-/* ===== CUADRO ===== */
-
-.cuadro{
-width:120px;
-height:120px;
-background:rgba(0,0,0,0.8);
-border:3px solid #660000;
-border-radius:15px;
-display:flex;
-align-items:center;
-justify-content:center;
-cursor:pointer;
-transition:.25s;
-}
-
-.cuadro:hover{
-transform:scale(1.05);
-border-color:red;
-}
-
-.bloqueado{
-opacity:.5;
-cursor:not-allowed;
-}
-
-/* ===== IMAGEN ===== */
-
-.personaje-img{
-width:70px;
-image-rendering:pixelated;
-}
-
-/* ===== TEXTO ===== */
-
-.nombre{
-margin-top:8px;
-font-size:14px;
-}
-
-.precio{
-font-size:12px;
-color:#ff7777;
-}
-
-</style>
+        .nombre { margin-top: 8px; font-size: 14px; }
+        .precio { font-size: 12px; color: #ff7777; }
+    </style>
 </head>
-
 <body>
 
-<div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    <h1>🩸 Tienda Negra</h1>
+    <h3>Solo los aventureros más oscuros compran aquí...</h3>
 
-<div class="sidebar" id="sidebar">
+    <div class="grid" id="gridTienda"></div>
 
-<button onclick="ir('inicio2.html')">Inicio</button>
+    <script>
+        const mascotas = [
+            {nombre:"Fenrir", precio:8000, imagen:"fenrir.png"},
+            {nombre:"Mujer Demonio Zorra", precio:5000, imagen:"zorra.png"},
+            {nombre:"Mujer Demonio Gato", precio:5000, imagen:"gato.png"},
+            {nombre:"Mujer Demonio Loba", precio:5000, imagen:"loba.png"},
+            {nombre:"Mujer Demonio", precio:10000, imagen:"demonio.png"}
+        ];
 
-<button onclick="toggleTienda()">Tienda ▾</button>
+        let inventario = JSON.parse(localStorage.getItem("inventarioMascotas")) || [];
+        let monedas = parseInt(localStorage.getItem("monedasJugador")) || 0;
+        let grid = document.getElementById("gridTienda");
 
-<div class="submenu" id="submenuTienda">
-<button onclick="ir('tienda-mascotas.html')">Mascotas</button>
-<button onclick="ir('tienda-objetos.html')">Objetos</button>
-<button onclick="ir('tienda-venta.html')">Venta</button>
-<button onclick="ir('tienda-negra.html')">Tienda Negra</button>
-</div>
+        mascotas.forEach(m => {
+            let item = document.createElement("div");
+            item.classList.add("item");
 
-<button onclick="toggleEquipar()">Equipar ▾</button>
+            let tienes = inventario.includes(m.nombre);
 
-<div class="submenu" id="submenuEquipar">
-<button onclick="ir('equipar-mascota.html')">Mascota</button>
-<button onclick="ir('equipar-titulo.html')">Título</button>
-<button onclick="ir('equipar-personaje.html')">Personaje</button>
-</div>
+            item.innerHTML = `
+                <div class="cuadro ${tienes ? 'bloqueado' : ''}" onclick="${tienes ? '' : 'comprar('+JSON.stringify(m).replace(/"/g, "'")+')'}">
+                    <img src="${m.imagen}" class="personaje-img">
+                </div>
+                <div class="nombre">${m.nombre}</div>
+                <div class="precio">${tienes ? 'Ya comprado' : m.precio + ' monedas'}</div>
+            `;
+            grid.appendChild(item);
+        });
 
-<button onclick="ir('titulos.html')">Guía de Títulos</button>
-<button onclick="ir('misiones.html')">Misiones</button>
-<button onclick="ir('clasificacion.html')">Clasificación</button>
-<button onclick="ir('creditos.html')">Créditos</button>
-
-</div>
-
-<h1>🩸 Tienda Negra</h1>
-<h3>Solo los aventureros más oscuros compran aquí...</h3>
-
-<div class="grid" id="gridTienda"></div>
-
-<script>
-
-function toggleMenu(){
-document.getElementById("sidebar").classList.toggle("active");
-}
-
-function toggleEquipar(){
-let menu=document.getElementById("submenuEquipar");
-menu.style.display = menu.style.display==="block"?"none":"block";
-}
-
-function toggleTienda(){
-let menu=document.getElementById("submenuTienda");
-menu.style.display = menu.style.display==="block"?"none":"block";
-}
-
-function ir(pagina){
-if(window.location.pathname.includes(pagina)){
-return;
-}
-window.location.href=pagina;
-}
-
-/* ===== PERSONAJES ===== */
-
-let mascotas=[
-
-{nombre:"Fenrir",precio:8000,imagen:"fenrir.png"},
-{nombre:"Mujer Demonio Zorra",precio:5000,imagen:"zorra.png"},
-{nombre:"Mujer Demonio Gato",precio:5000,imagen:"gato.png"},
-{nombre:"Mujer Demonio Loba",precio:5000,imagen:"loba.png"},
-{nombre:"Mujer Demonio",precio:10000,imagen:"demonio.png"}
-
-];
-
-let inventario=JSON.parse(localStorage.getItem("inventarioMascotas")) || [];
-let monedas=parseInt(localStorage.getItem("monedasJugador")) || 0;
-
-let grid=document.getElementById("gridTienda");
-
-mascotas.forEach(m=>{
-
-let item=document.createElement("div");
-item.classList.add("item");
-
-let cuadro=document.createElement("div");
-cuadro.classList.add("cuadro");
-
-let tienes=inventario.includes(m.nombre);
-
-if(tienes){
-cuadro.classList.add("bloqueado");
-}
-
-cuadro.innerHTML=`<img src="${m.imagen}" class="personaje-img">`;
-
-if(!tienes){
-cuadro.onclick=()=>comprar(m);
-}
-
-let nombre=document.createElement("div");
-nombre.classList.add("nombre");
-nombre.textContent=m.nombre;
-
-let precio=document.createElement("div");
-precio.classList.add("precio");
-
-if(tienes){
-precio.textContent="Ya comprado";
-}else{
-precio.textContent=m.precio+" monedas";
-}
-
-item.appendChild(cuadro);
-item.appendChild(nombre);
-item.appendChild(precio);
-
-grid.appendChild(item);
-
-});
-
-function comprar(m){
-
-if(inventario.includes(m.nombre)){
-return;
-}
-
-if(monedas < m.precio){
-alert("No tienes suficientes monedas.");
-return;
-}
-
-monedas -= m.precio;
-localStorage.setItem("monedasJugador",monedas);
-
-inventario.push(m.nombre);
-localStorage.setItem("inventarioMascotas",JSON.stringify(inventario));
-
-location.reload();
-
-}
-
-</script>
-
+        function comprar(m) {
+            if (monedas < m.precio) return alert("No tienes suficientes monedas.");
+            
+            monedas -= m.precio;
+            localStorage.setItem("monedasJugador", monedas);
+            inventario.push(m.nombre);
+            localStorage.setItem("inventarioMascotas", JSON.stringify(inventario));
+            
+            alert("Has comprado: " + m.nombre);
+            location.reload();
+        }
+    </script>
 </body>
 </html>

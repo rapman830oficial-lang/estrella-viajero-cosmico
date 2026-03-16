@@ -1,211 +1,105 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gremio Estrella Viajero Cósmico</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gremio Estrella Viajero Cósmico</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Georgia', serif;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("fondo.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
 
-<style>
+        .contenedor {
+            text-align: center;
+            padding: 20px;
+        }
 
-body{
-margin:0;
-font-family:'Georgia', serif;
+        .titulo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
 
-background:
-linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
-url("fondo.jpg");
+        .titulo h1 {
+            font-size: 60px;
+            margin: 0;
+            text-shadow: 0 0 15px black;
+        }
 
-background-size:cover;
-background-position:center;
-background-repeat:no-repeat;
-background-attachment:fixed;
+        .sello { width: 150px; height: auto; }
 
-color:white;
-height:100vh;
-}
+        .nombre-gremio {
+            font-size: 30px;
+            margin: 20px 0;
+            color: gold;
+            text-shadow: 0 0 10px gold;
+        }
 
-/* CONTENEDOR PRINCIPAL */
+        .info-burbuja {
+            max-width: 700px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 25px;
+            border: 2px solid gold;
+            border-radius: 15px;
+            margin: 20px;
+            line-height: 1.6;
+        }
 
-.contenedor{
-padding-top:120px;
-text-align:center;
-}
+        .boton-examen button {
+            padding: 20px 40px;
+            font-size: 22px;
+            background: linear-gradient(45deg, gold, darkgoldenrod);
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #2b1c0f;
+            transition: transform 0.2s;
+        }
 
-/* TITULO */
-
-.titulo{
-display:flex;
-justify-content:center;
-align-items:center;
-gap:40px;
-}
-
-.titulo h1{
-font-size:90px;
-margin:0;
-color:white;
-text-shadow:0 0 10px black,
-             0 0 20px black;
-}
-
-.sello{
-width:180px;
-height:auto;
-}
-
-/* NOMBRE DEL GREMIO */
-
-.nombre-gremio{
-font-size:40px;
-margin-top:40px;
-letter-spacing:3px;
-color:gold;
-
-text-shadow:
-0 0 10px gold,
-0 0 20px goldenrod,
-0 0 30px orange;
-}
-
-/* BURBUJA PERGAMINO */
-
-.info-burbuja{
-max-width:900px;
-margin:100px auto;
-padding:120px 80px;
-
-background:url("pergamino.png");
-background-size:100% 100%;
-background-repeat:no-repeat;
-background-position:center;
-
-text-align:center;
-color:#3b2b15;
-}
-
-.info-burbuja h2{
-font-size:40px;
-margin-bottom:30px;
-}
-
-.info-burbuja p{
-font-size:20px;
-line-height:1.8;
-margin-bottom:20px;
-}
-
-/* BOTÓN EXAMEN */
-
-.boton-examen{
-text-align:center;
-margin:60px 0;
-}
-
-.boton-examen button{
-
-padding:20px 50px;
-font-size:22px;
-font-family:'Georgia', serif;
-
-background:linear-gradient(45deg,gold,darkgoldenrod);
-
-border:none;
-border-radius:15px;
-cursor:pointer;
-
-color:#3b2b15;
-font-weight:bold;
-
-transition:0.3s;
-}
-
-.boton-examen button:hover{
-
-transform:scale(1.1);
-
-box-shadow:0 0 20px gold;
-
-}
-
-</style>
+        .boton-examen button:hover { transform: scale(1.05); }
+    </style>
 </head>
-
 <body>
 
-<div class="contenedor">
+    <div class="contenedor">
+        <div class="titulo">
+            <h1>Bienvenido</h1>
+            <img src="sello.png" class="sello" alt="Sello del Gremio">
+        </div>
 
-<div class="titulo">
-<h1>Bienvenido</h1>
-<img src="sello.png" class="sello" alt="Sello del Gremio">
-</div>
+        <div class="nombre-gremio">⚜ Gremio Estrella Viajero Cósmico ⚜</div>
 
-<div class="nombre-gremio">
-⚜ Gremio Estrella Viajero Cósmico ⚜
-</div>
+        <section class="info-burbuja">
+            <h2>📜 Información del Gremio</h2>
+            <p>Bienvenido al gremio. Aquí comienza tu camino como aventurero. Primero deberás realizar el Examen de Ingreso para obtener tu Licencia Oficial.</p>
+            <p>Según tus decisiones recibirás un rango (F hasta S) y tu ID único quedará registrado en la Clasificación Mundial.</p>
+        </section>
 
-</div>
+        <div class="boton-examen">
+            <button onclick="window.location.href='examen.html'">⚔ Realizar Examen de Ingreso ⚔</button>
+        </div>
+    </div>
 
-<section class="info-burbuja">
-
-<h2>📜 Información del Gremio</h2>
-
-<p>
-Bienvenido al gremio. Aquí comienza tu camino como aventurero.
-Primero deberás realizar el Examen de Ingreso para obtener tu Licencia Oficial.
-</p>
-
-<p>
-Según tus decisiones recibirás un rango (F hasta S) y tu ID único
-quedará registrado en la Clasificación Mundial.
-</p>
-
-<p>
-Podrás explorar mazmorras por niveles, derrotar enemigos como slimes,
-goblins, orcos y bestias oscuras para conseguir materiales.
-</p>
-
-<p>
-Los materiales pueden venderse por monedas en la tienda.
-Con monedas podrás comprar mascotas, objetos y expandir tu inventario.
-</p>
-
-<p>
-Las mascotas pueden ayudarte en combate como segundo ataque.
-Algunas podrán mejorarse alimentándolas.
-</p>
-
-<p>
-El jefe final es el Dragón Oscuro. 
-Solo los aventureros más fuertes podrán derrotarlo.
-</p>
-
-<p>
-Existen títulos especiales que podrás desbloquear completando logros.
-¿Serás capaz de convertirte en el Rey de los Títulos?
-</p>
-
-</section>
-
-<div class="boton-examen">
-<a href="examen.html">
-<button>⚔ Realizar Examen de Ingreso ⚔</button>
-</a>
-</div>
-
-<script>
-
-/* Si ya existe una licencia creada,
-entra directo al juego */
-
-if(
-localStorage.getItem("licenciaCreada") === "si"
-&&
-localStorage.getItem("nombreJugador")
-){
-window.location.href = "inicio2.html";
-}
-
-</script>
-
+    <script>
+        // Verificación simple: si el jugador ya tiene licencia, enviarlo a inicio2.html
+        if (localStorage.getItem("licenciaCreada") === "si") {
+            window.location.href = "inicio2.html";
+        }
+    </script>
 </body>
 </html>

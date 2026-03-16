@@ -1,226 +1,87 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elegir Personaje</title>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="menu.css">
+    <script src="menu.js" defer></script>
 
-<title>Elegir Personaje</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Georgia, serif;
+            background: #1e1b16;
+            color: #f5e6c8;
+            text-align: center;
+        }
 
-<style>
+        h1 { color: gold; margin-top: 80px; }
 
-/* ===== MENU ===== */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            max-width: 500px;
+            margin: 60px auto;
+        }
 
-.menu-toggle{
-position:fixed;
-top:20px;
-left:20px;
-font-size:28px;
-cursor:pointer;
-color:gold;
-z-index:1001;
-}
+        .cuadro {
+            background: rgba(0,0,0,0.5);
+            border: 3px solid #8b6f47;
+            border-radius: 15px;
+            padding: 20px;
+            cursor: pointer;
+            transition: .25s;
+        }
 
-.sidebar{
-position:fixed;
-top:0;
-left:-320px;
-width:300px;
-height:100%;
-background:#14110d;
-border-right:3px solid gold;
-padding-top:80px;
-transition:.35s;
-z-index:1000;
-}
+        .cuadro:hover { transform: scale(1.05); }
 
-.sidebar.active{
-left:0;
-}
+        .cuadro img {
+            width: 150px;
+            image-rendering: pixelated;
+        }
 
-.sidebar button{
-display:block;
-width:85%;
-margin:15px auto;
-padding:12px;
-font-size:18px;
-background:linear-gradient(45deg,gold,darkgoldenrod);
-border:none;
-border-radius:10px;
-cursor:pointer;
-font-weight:bold;
-color:#2b1c0f;
-}
+        .elegido {
+            border: 3px solid lime;
+            box-shadow: 0 0 10px lime;
+        }
 
-.submenu{
-display:none;
-margin-left:20px;
-}
-
-.submenu button{
-font-size:15px;
-padding:8px;
-}
-
-/* ===== BODY ===== */
-
-body{
-margin:0;
-font-family:Georgia,serif;
-background:#1e1b16;
-color:#f5e6c8;
-text-align:center;
-}
-
-h1{
-color:gold;
-margin-top:40px;
-}
-
-/* ===== GRID PERSONAJES ===== */
-
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:40px;
-max-width:500px;
-margin:60px auto;
-}
-
-.cuadro{
-
-background:rgba(0,0,0,0.5);
-border:3px solid #8b6f47;
-border-radius:15px;
-padding:20px;
-cursor:pointer;
-transition:.25s;
-
-}
-
-.cuadro:hover{
-transform:scale(1.05);
-}
-
-.cuadro img{
-width:150px;
-image-rendering:pixelated;
-}
-
-.elegido{
-border:3px solid lime;
-box-shadow:0 0 10px lime;
-}
-
-.nombre{
-margin-top:10px;
-font-size:20px;
-font-weight:bold;
-}
-
-</style>
+        .nombre {
+            margin-top: 10px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    <h1>Elegir Personaje</h1>
 
-<div class="sidebar" id="sidebar">
+    <div class="grid">
+        <div class="cuadro" id="hombre" onclick="elegir('hombre')">
+            <img src="hombre.png" alt="Hombre">
+            <div class="nombre">Hombre</div>
+        </div>
 
-<button onclick="ir('inicio2.html')">Inicio</button>
+        <div class="cuadro" id="mujer" onclick="elegir('mujer')">
+            <img src="mujer.png" alt="Mujer">
+            <div class="nombre">Mujer</div>
+        </div>
+    </div>
 
-<button onclick="toggleTienda()">Tienda ▾</button>
+    <script>
+        // Aplicar estado elegido al cargar
+        const personaje = localStorage.getItem("personajeJugador");
+        if (personaje) {
+            document.getElementById(personaje)?.classList.add("elegido");
+        }
 
-<div class="submenu" id="submenuTienda">
-<button onclick="ir('tienda-mascotas.html')">Mascotas</button>
-<button onclick="ir('tienda-objetos.html')">Objetos</button>
-<button onclick="ir('tienda-venta.html')">Venta</button>
-<button onclick="ir('tienda-negra.html')">Tienda Negra</button>
-</div>
-
-<button onclick="toggleEquipar()">Equipar ▾</button>
-
-<div class="submenu" id="submenuEquipar">
-<button onclick="ir('equipar-mascota.html')">Mascota</button>
-<button onclick="ir('equipar-titulo.html')">Título</button>
-<button onclick="ir('equipar-personaje.html')">Personaje</button>
-</div>
-
-<button onclick="ir('titulos.html')">Guía de Títulos</button>
-<button onclick="ir('misiones.html')">Misiones</button>
-<button onclick="ir('clasificacion.html')">Clasificación</button>
-<button onclick="ir('creditos.html')">Créditos</button>
-
-</div>
-
-<h1>Elegir Personaje</h1>
-
-<div class="grid">
-
-<div class="cuadro" id="hombre" onclick="elegir('hombre')">
-
-<img src="hombre.png">
-
-<div class="nombre">Hombre</div>
-
-</div>
-
-<div class="cuadro" id="mujer" onclick="elegir('mujer')">
-
-<img src="mujer.png">
-
-<div class="nombre">Mujer</div>
-
-</div>
-
-</div>
-
-<script>
-
-/* ===== MENU ===== */
-
-function toggleMenu(){
-document.getElementById("sidebar").classList.toggle("active");
-}
-
-function toggleEquipar(){
-let menu=document.getElementById("submenuEquipar");
-menu.style.display = menu.style.display==="block"?"none":"block";
-}
-
-function toggleTienda(){
-let menu=document.getElementById("submenuTienda");
-menu.style.display = menu.style.display==="block"?"none":"block";
-}
-
-function ir(pagina){
-if(window.location.pathname.includes(pagina)) return;
-window.location.href=pagina;
-}
-
-/* ===== PERSONAJE GUARDADO ===== */
-
-let personaje=localStorage.getItem("personajeJugador");
-
-if(personaje==="hombre"){
-document.getElementById("hombre").classList.add("elegido");
-}
-
-if(personaje==="mujer"){
-document.getElementById("mujer").classList.add("elegido");
-}
-
-/* ===== ELEGIR PERSONAJE ===== */
-
-function elegir(tipo){
-
-localStorage.setItem("personajeJugador",tipo);
-
-location.reload();
-
-}
-
-</script>
-
+        function elegir(tipo) {
+            localStorage.setItem("personajeJugador", tipo);
+            location.reload();
+        }
+    </script>
 </body>
 </html>

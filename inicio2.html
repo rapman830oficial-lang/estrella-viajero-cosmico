@@ -1,684 +1,300 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio del Aventurero</title>
+    
+    <link rel="stylesheet" href="menu.css">
+    <script src="menu.js" defer></script>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Georgia', serif;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url("fondo-aventura.jpg");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #f5e6c8;
+            text-align: center;
+        }
 
-<title>Inicio del Aventurero</title>
+        .burbuja {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background: rgba(0,170,255,0.15);
+            border: 2px solid #4fd6ff;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0,200,255,0.7), inset 0 0 15px rgba(0,200,255,0.5);
+            backdrop-filter: blur(8px);
+            color: #e8faff;
+        }
 
-<style>
+        .nombre-jugador {
+            font-size: 70px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 0 10px #00eaff, 0 0 20px #00eaff, 0 0 40px #00eaff;
+        }
 
-.menu-toggle{
-position:fixed;
-top:20px;
-left:20px;
-font-size:28px;
-cursor:pointer;
-z-index:1001;
-color:gold;
-}
+        .gremio {
+            margin-top: 10px;
+            font-size: 22px;
+            color: gold;
+        }
 
-.sidebar{
-position:fixed;
-top:0;
-left:-320px;
-width:300px;
-height:100%;
-background:#14110d;
-border-right:3px solid gold;
-padding-top:80px;
-transition:0.35s;
-z-index:1000;
-}
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            text-align: left;
+            margin-top: 20px;
+            font-size: 18px;
+        }
 
-.sidebar.active{
-left:0;
-}
+        .info-grid strong { color: #ff4d4d; }
 
-.sidebar button{
-display:block;
-width:85%;
-margin:15px auto;
-padding:12px;
-font-size:18px;
-background:linear-gradient(45deg,gold,darkgoldenrod);
-border:none;
-border-radius:10px;
-cursor:pointer;
-font-weight:bold;
-color:#2b1c0f;
-}
+        .info-grid div {
+            background: rgba(0,120,200,0.2);
+            border: 1px solid #4fd6ff;
+            padding: 12px;
+            border-radius: 10px;
+            box-shadow: 0 0 8px rgba(0,200,255,0.6);
+        }
 
-.submenu{
-display:none;
-margin-left:20px;
-}
+        .barra-exp { max-width: 800px; margin: 20px auto; padding: 20px; }
+        .exp-texto { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 10px; font-size: 20px; }
+        .exp-barra { width: 100%; height: 22px; background: #111; border-radius: 12px; overflow: hidden; border: 2px solid #4fd6ff; }
+        .exp-progreso { height: 100%; width: 0%; background: linear-gradient(90deg,#00eaff,#4fd6ff); box-shadow: 0 0 10px #00eaff; transition: width 0.5s; }
 
-.submenu button{
-font-size:15px;
-padding:8px;
-}
+        .panel-inferior { display: flex; justify-content: center; gap: 40px; margin: 40px auto; max-width: 800px; flex-wrap: wrap; }
+        .boton-jugar button { padding: 15px 50px; font-size: 20px; background: linear-gradient(45deg,gold,darkgoldenrod); border: none; border-radius: 15px; cursor: pointer; font-weight: bold; }
+        .codigo-input input { padding: 12px; font-size: 16px; border-radius: 10px; border: none; width: 200px; text-align: center; }
+        .codigo-input button { margin-top: 15px; padding: 8px 20px; border: none; border-radius: 10px; background: gold; cursor: pointer; font-weight: bold; }
 
-body{
-margin:0;
-min-height:100vh;
-font-family:'Georgia', serif;
-
-background:
-linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
-url("fondo-aventura.jpg");
-
-background-size:cover;
-background-position:center;
-background-attachment:fixed;
-
-color:#f5e6c8;
-text-align:center;
-}
-
-.burbuja{
-
-max-width:800px;
-margin:40px auto;
-padding:30px;
-
-background:rgba(0,170,255,0.15);
-border:2px solid #4fd6ff;
-border-radius:20px;
-
-box-shadow:
-0 0 20px rgba(0,200,255,0.7),
-inset 0 0 15px rgba(0,200,255,0.5);
-
-backdrop-filter:blur(8px);
-
-color:#e8faff;
-
-}
-
-.nombre-jugador{
-font-size:70px;
-font-weight:bold;
-color:white;
-text-shadow:
-0 0 10px #00eaff,
-0 0 20px #00eaff,
-0 0 40px #00eaff;
-}
-
-.gremio{
-margin-top:10px;
-font-size:22px;
-color:gold;
-}
-
-.info-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:20px;
-text-align:left;
-margin-top:20px;
-font-size:18px;
-}
-
-.info-grid strong{
-color:#ff4d4d;
-}
-
-.info-grid div{
-background:rgba(0,120,200,0.2);
-border:1px solid #4fd6ff;
-padding:12px;
-border-radius:10px;
-box-shadow:0 0 8px rgba(0,200,255,0.6);
-}
-
-/* BARRA EXP */
-
-.barra-exp{
-max-width:800px;
-margin:20px auto;
-padding:20px;
-}
-
-.exp-texto{
-display:flex;
-justify-content:space-between;
-font-weight:bold;
-margin-bottom:10px;
-font-size:20px;
-}
-
-.exp-barra{
-width:100%;
-height:22px;
-background:#111;
-border-radius:12px;
-overflow:hidden;
-border:2px solid #4fd6ff;
-}
-
-.exp-progreso{
-height:100%;
-width:0%;
-background:linear-gradient(90deg,#00eaff,#4fd6ff);
-box-shadow:0 0 10px #00eaff;
-transition:width 0.5s;
-}
-
-.panel-inferior{
-display:flex;
-justify-content:center;
-gap:40px;
-margin:40px auto;
-max-width:800px;
-flex-wrap:wrap;
-}
-
-.boton-jugar button{
-padding:15px 50px;
-font-size:20px;
-background:linear-gradient(45deg,gold,darkgoldenrod);
-border:none;
-border-radius:15px;
-cursor:pointer;
-font-weight:bold;
-}
-
-.codigo-input input{
-padding:12px;
-font-size:16px;
-border-radius:10px;
-border:none;
-width:200px;
-text-align:center;
-}
-
-.codigo-input button{
-margin-top:15px;
-padding:8px 20px;
-border:none;
-border-radius:10px;
-background:gold;
-cursor:pointer;
-font-weight:bold;
-}
-#botonComandos{
-position:fixed;
-bottom:20px;
-right:20px;
-background:gold;
-padding:10px 15px;
-border-radius:10px;
-cursor:pointer;
-font-weight:bold;
-display:none;
-}
-
-#panelComandos{
-position:fixed;
-bottom:70px;
-right:20px;
-width:260px;
-max-height:400px;
-overflow-y:auto;
-background:#111;
-border:2px solid gold;
-border-radius:10px;
-padding:10px;
-display:none;
-color:white;
-}
-
-#panelComandos button{
-width:100%;
-margin:3px 0;
-padding:6px;
-cursor:pointer;
-}
-
-</style>
+        #botonComandos { position: fixed; bottom: 20px; right: 20px; background: gold; padding: 10px 15px; border-radius: 10px; cursor: pointer; font-weight: bold; display: none; z-index: 1002; color: #2b1c0f; }
+        #panelComandos { position: fixed; bottom: 70px; right: 20px; width: 260px; max-height: 400px; overflow-y: auto; background: #111; border: 2px solid gold; border-radius: 10px; padding: 10px; display: none; color: white; z-index: 1002; }
+        #panelComandos button { width: 100%; margin: 3px 0; padding: 6px; cursor: pointer; }
+    </style>
 </head>
-
 <body>
 
-<div class="menu-toggle" onclick="toggleMenu()">☰</div>
-
-<div class="sidebar" id="sidebar">
-
-<button onclick="ir('inicio2.html')">Inicio</button>
-
-<button onclick="toggleTienda()">Tienda ▾</button>
-
-<div class="submenu" id="submenuTienda">
-<button onclick="ir('tienda-mascotas.html')">Mascotas</button>
-<button onclick="ir('tienda-objetos.html')">Objetos</button>
-<button onclick="ir('tienda-venta.html')">Venta</button>
-<button onclick="ir('tienda-negra.html')">Tienda Negra</button>
-</div>
-
-<button onclick="toggleEquipar()">Equipar ▾</button>
-
-<div class="submenu" id="submenuEquipar">
-<button onclick="ir('equipar-mascota.html')">Mascota</button>
-<button onclick="ir('equipar-titulo.html')">Título</button>
-<button onclick="ir('equipar-personaje.html')">Personaje</button>
-</div>
-
-<button onclick="ir('titulos.html')">Títulos</button>
-<button onclick="ir('misiones.html')">Misiones</button>
-<button onclick="ir('clasificacion.html')">Clasificación</button>
-<button onclick="ir('creditos.html')">Créditos</button>
-
-</div>
-
-<div class="burbuja">
-
-<div class="nombre-jugador" id="nombreJugador"></div>
-
-<div class="gremio">
-⚜ Gremio Estrella Viajero Cósmico ⚜
-</div>
-
-</div>
-
-<div class="burbuja">
-
-<div class="info-grid">
-
-<div><strong>Nombre:</strong> <span id="nombre"></span></div>
-<div><strong>Magia:</strong> <span id="magia"></span></div>
-
-<div><strong>Rol:</strong> <span id="rol"></span></div>
-<div><strong>Número:</strong> <span id="numero"></span></div>
-
-<div><strong>Título:</strong> <span id="titulo"></span></div>
-<div><strong>Rango:</strong> <span id="rango"></span></div>
-
-<div><strong>Mascota:</strong> <span id="animal"></span></div>
-<div><strong>Monedas:</strong> <span id="monedas"></span></div>
-
-</div>
-
-</div>
-
-<!-- BURBUJA EXP -->
-
-<div class="burbuja barra-exp">
-
-<h3>Experiencia</h3>
-
-<div class="exp-texto">
-<span id="rangoActual"></span>
-<span id="rangoSiguiente"></span>
-</div>
-
-<div class="exp-barra">
-<div class="exp-progreso" id="barraExp"></div>
-</div>
-
-</div>
-
-<div class="panel-inferior">
-
-<div class="burbuja boton-jugar">
-<button onclick="ir('mazmorras.html')">⚔ Jugar ⚔</button>
-</div>
-
-<div class="burbuja codigo-input">
-
-<h3>Canjear Código</h3>
-
-<input type="text" id="codigo" placeholder="Ingresa tu código">
-
-<br>
-
-<button onclick="canjearCodigo()">Canjear</button>
-
-</div>
-
-</div>
-
-<script>
-
-function toggleMenu(){
-document.getElementById("sidebar").classList.toggle("active");
-}
-
-function toggleEquipar(){
-let menu=document.getElementById("submenuEquipar");
-menu.style.display = menu.style.display==="block"?"none":"block";
-}
-
-function toggleTienda(){
-let menu=document.getElementById("submenuTienda");
-menu.style.display = menu.style.display==="block"?"none":"block";
-}
-
-function ir(pagina){
-window.location.href=pagina;
-}
-
-/* DATOS */
-
-let nombre=localStorage.getItem("nombreJugador");
-let magia=localStorage.getItem("magiaJugador");
-let puntos=parseInt(localStorage.getItem("puntosJugador")) || 0;
-let numero=localStorage.getItem("numeroAventurero");
-
-let titulo=localStorage.getItem("tituloJugador") || "Aventurero del Gremio";
-let animal=localStorage.getItem("mascotaEquipada") || "Ninguna";
-let monedas=parseInt(localStorage.getItem("monedasJugador")) || 0;
-
-/* RANGO */
-
-let rango="F";
-
-if(puntos>=35) rango="E";
-if(puntos>=50) rango="D";
-if(puntos>=65) rango="C";
-if(puntos>=80) rango="B";
-if(puntos>=95) rango="A";
-if(puntos>=110) rango="S";
-
-/* EXP */
-
-let rangos=["F","E","D","C","B","A","S"];
-let limites=[0,35,50,65,80,95,110];
-
-let indice=rangos.indexOf(rango);
-
-let actual=rangos[indice];
-let siguiente=rangos[indice+1] || "MAX";
-
-document.getElementById("rangoActual").textContent=actual;
-document.getElementById("rangoSiguiente").textContent=siguiente;
-
-let progreso=100;
-
-if(indice < limites.length-1){
-
-let inicio=limites[indice];
-let fin=limites[indice+1];
-
-progreso=((puntos-inicio)/(fin-inicio))*100;
-
-}
-
-document.getElementById("barraExp").style.width=progreso+"%";
-
-/* ROL */
-
-let rol="Especialista";
-
-if(magia==="Fuego"||magia==="Rayo") rol="Atacante";
-if(magia==="Agua"||magia==="Luz") rol="Soporte";
-if(magia==="Tierra"||magia==="Hielo") rol="Defensor";
-
-/* MOSTRAR */
-
-document.getElementById("nombreJugador").textContent=nombre;
-document.getElementById("nombre").textContent=nombre;
-document.getElementById("magia").textContent=magia;
-document.getElementById("numero").textContent=numero;
-document.getElementById("rango").textContent=rango;
-document.getElementById("rol").textContent=rol;
-document.getElementById("titulo").textContent=titulo;
-document.getElementById("animal").textContent=animal;
-document.getElementById("monedas"
-  ).textContent=monedas;
-  /* ACTIVAR PANEL ADMIN SI YA SE USÓ EL CÓDIGO */
-
-if(localStorage.getItem("codigoAddDemoni")){
-document.getElementById("botonComandos").style.display="block";
-}
-/* CODIGOS */
-
-function canjearCodigo(){
-
-let codigo=document.getElementById("codigo").value.trim();
-
-let inventarioTitulos=JSON.parse(localStorage.getItem("inventarioTitulos")) || [];
-
-function darTitulo(t){
-
-if(!inventarioTitulos.includes(t)){
-inventarioTitulos.push(t);
-}
-
-localStorage.setItem("inventarioTitulos",JSON.stringify(inventarioTitulos));
-localStorage.setItem("tituloJugador",t);
-
-document.getElementById("titulo").textContent=t;
-
-}
-
-/* REY DEMONIO */
-
-if(codigo==="Rey_demonio_Rapman830"){
-
-if(localStorage.getItem("codigoReyDemonioUsado")){
-alert("Este código ya fue utilizado.");
-return;
-}
-
-monedas+=1000000000;
-
-localStorage.setItem("monedasJugador",monedas);
-localStorage.setItem("codigoReyDemonioUsado","si");
-
-darTitulo("Rey Demonio");
-
-document.getElementById("monedas").textContent=monedas;
-
-alert("🔥 Bienvenido Rey Demonio 🔥");
-
-}
-
-/* MIEMBRO DEMONIACO */
-
-else if(codigo==="DEMON_MENBER"){
-
-if(localStorage.getItem("codigoMiembroDemonio")){
-alert("Este código ya fue utilizado.");
-return;
-}
-
-monedas+=10000;
-
-localStorage.setItem("monedasJugador",monedas);
-localStorage.setItem("codigoMiembroDemonio","si");
-
-darTitulo("Miembro Demoníaco");
-
-document.getElementById("monedas").textContent=monedas;
-
-alert("😈 Código activado: +10000 monedas");
-
-}
-
-/* ADD DEMONIO */
-
-else if(codigo==="ADD_DEMONI"){
-
-if(localStorage.getItem("codigoAddDemoni")){
-alert("Este código ya fue utilizado.");
-return;
-}
-
-monedas+=100000;
-
-localStorage.setItem("monedasJugador",monedas);
-localStorage.setItem("codigoAddDemoni","si");
-
-/* ACTIVAR PANEL ADMIN */
-document.getElementById("botonComandos").style.display="block";
-
-darTitulo("ADD Demonio");
-
-document.getElementById("monedas").textContent=monedas;
-
-alert("Bienvenido Al Grupo De Administradores");
-
-}
-
-/* GLOBAL */
-
-else if(codigo==="STAR_GLOBAL"){
-
-if(localStorage.getItem("codigoGlobalUsado")){
-alert("Este código ya fue utilizado.");
-return;
-}
-
-monedas+=10000;
-
-localStorage.setItem("monedasJugador",monedas);
-localStorage.setItem("codigoGlobalUsado","si");
-
-document.getElementById("monedas").textContent=monedas;
-
-alert("⭐ Código global activado ⭐");
-
-}
-
-/* SEGUNDA VIDA */
-
-else if(codigo==="Segunda_vida"){
-
-if(confirm("Este código borrará TODOS los datos del juego. ¿Continuar?")){
-
-localStorage.clear();
-
-alert("Tu aventura ha renacido...");
-
-window.location.href="index.html";
-
-}
-
-}
-
-else{
-
-alert("Código inválido.");
-
-}
-
-}
-function abrirComandos(){
-  let panel = document.getElementById("panelComandos");
-
-  if(panel.style.display=="block"){
-    panel.style.display="none";
-    localStorage.setItem("adminPanelVisible","false"); // Guardamos que se cerró
-  } else {
-    panel.style.display="block";
-    localStorage.setItem("adminPanelVisible","true"); // Guardamos que se abrió
-  }
-}
-
-// Mostrar botón admin si ya se usó el código
-if(localStorage.getItem("codigoAddDemoni")){
-  document.getElementById("botonComandos").style.display="block";
-}
-
-// Mantener panel abierto si estaba abierto antes
-if(localStorage.getItem("adminPanelVisible") === "true"){
-  document.getElementById("panelComandos").style.display="block";
-}
-
-function darMonedas(cantidad){
-
-let monedas=parseInt(localStorage.getItem("monedasJugador")) || 0;
-
-monedas+=cantidad;
-
-localStorage.setItem("monedasJugador",monedas);
-
-document.getElementById("monedas").textContent=monedas;
-
-}
-
-function cambiarMagia(magia){
-
-localStorage.setItem("magiaJugador",magia);
-
-location.reload();
-
-}
-
-function cambiarNumero(){
-
-let numero=document.getElementById("nuevoNumero").value;
-
-localStorage.setItem("numeroAventurero",numero);
-
-location.reload();
-
-}
-
-function cambiarRango(rango){
-
-let puntos=0;
-
-if(rango=="E") puntos=35;
-if(rango=="D") puntos=50;
-if(rango=="C") puntos=65;
-if(rango=="B") puntos=80;
-if(rango=="A") puntos=95;
-if(rango=="S") puntos=110;
-
-localStorage.setItem("puntosJugador",puntos);
-
-location.reload();
-
-}
-
-</script>
-
-<div id="botonComandos" onclick="abrirComandos()">⚙ Comandos</div>
-
-<div id="panelComandos">
-
-<h3>Panel de Comandos</h3>
-
-<h4>Monedas</h4>
-<button onclick="darMonedas(10000000)">+10000000</button>
-<button onclick="darMonedas(1000000)">+1000000</button>
-<button onclick="darMonedas(100000)">+100000</button>
-<button onclick="darMonedas(10000)">+10000</button>
-<button onclick="darMonedas(1000)">+1000</button>
-<button onclick="darMonedas(100)">+100</button>
-<button onclick="darMonedas(10)">+10</button>
-
-<h4>Rango</h4>
-<button onclick="cambiarRango('F')">Rango F</button>
-<button onclick="cambiarRango('E')">Rango E</button>
-<button onclick="cambiarRango('D')">Rango D</button>
-<button onclick="cambiarRango('C')">Rango C</button>
-<button onclick="cambiarRango('B')">Rango B</button>
-<button onclick="cambiarRango('A')">Rango A</button>
-<button onclick="cambiarRango('S')">Rango S</button>
-
-<h4>Borrar datos</h4>
-<button onclick="localStorage.removeItem('mascotaEquipada')">Borrar mascota</button>
-<button onclick="localStorage.removeItem('inventarioObjetos')">Borrar compras</button>
-<button onclick="localStorage.removeItem('monedasJugador')">Borrar monedas</button>
-
-<h4>Magia</h4>
-<button onclick="cambiarMagia('Fuego')">Fuego</button>
-<button onclick="cambiarMagia('Agua')">Agua</button>
-<button onclick="cambiarMagia('Tierra')">Tierra</button>
-<button onclick="cambiarMagia('Luz')">Luz</button>
-<button onclick="cambiarMagia('Rayo')">Rayo</button>
-<button onclick="cambiarMagia('Hielo')">Hielo</button>
-
-<h4>Número jugador</h4>
-<input id="nuevoNumero" placeholder="Número">
-<button onclick="cambiarNumero()">Cambiar</button>
-
-</div>
-
+    <div class="burbuja">
+        <div class="nombre-jugador" id="nombreJugador"></div>
+        <div class="gremio">⚜ Gremio Estrella Viajero Cósmico ⚜</div>
+    </div>
+
+    <div class="burbuja">
+        <div class="info-grid">
+            <div><strong>Nombre:</strong> <span id="nombre"></span></div>
+            <div><strong>Magia:</strong> <span id="magia"></span></div>
+            <div><strong>Rol:</strong> <span id="rol"></span></div>
+            <div><strong>Número:</strong> <span id="numero"></span></div>
+            <div><strong>Título:</strong> <span id="titulo"></span></div>
+            <div><strong>Rango:</strong> <span id="rango"></span></div>
+            <div><strong>Mascota:</strong> <span id="animal"></span></div>
+            <div><strong>Monedas:</strong> <span id="monedas"></span></div>
+        </div>
+    </div>
+
+    <div class="burbuja barra-exp">
+        <h3>Experiencia</h3>
+        <div class="exp-texto">
+            <span id="rangoActual"></span>
+            <span id="rangoSiguiente"></span>
+        </div>
+        <div class="exp-barra">
+            <div class="exp-progreso" id="barraExp"></div>
+        </div>
+    </div>
+
+    <div class="panel-inferior">
+        <div class="burbuja boton-jugar">
+            <button onclick="ir('mazmorras.html')">⚔ Jugar ⚔</button>
+        </div>
+        <div class="burbuja codigo-input">
+            <h3>Canjear Código</h3>
+            <input type="text" id="codigo" placeholder="Ingresa tu código">
+            <br>
+            <button onclick="canjearCodigo()">Canjear</button>
+        </div>
+    </div>
+
+    <div id="botonComandos" onclick="abrirComandos()">⚙ Comandos</div>
+    <div id="panelComandos">
+        <h3>Panel de Comandos</h3>
+        <h4>Monedas</h4>
+        <button onclick="darMonedas(10000000)">+10M</button>
+        <button onclick="darMonedas(1000000)">+1M</button>
+        <button onclick="darMonedas(100000)">+100K</button>
+        <button onclick="darMonedas(10000)">+10K</button>
+        <h4>Rango</h4>
+        <button onclick="cambiarRango('F')">Rango F</button>
+        <button onclick="cambiarRango('E')">Rango E</button>
+        <button onclick="cambiarRango('D')">Rango D</button>
+        <button onclick="cambiarRango('C')">Rango C</button>
+        <button onclick="cambiarRango('B')">Rango B</button>
+        <button onclick="cambiarRango('A')">Rango A</button>
+        <button onclick="cambiarRango('S')">Rango S</button>
+        <h4>Magia</h4>
+        <button onclick="cambiarMagia('Fuego')">Fuego</button>
+        <button onclick="cambiarMagia('Agua')">Agua</button>
+        <button onclick="cambiarMagia('Tierra')">Tierra</button>
+        <button onclick="cambiarMagia('Luz')">Luz</button>
+        <h4>Número jugador</h4>
+        <input id="nuevoNumero" style="width: 80%; padding: 5px; margin-bottom: 5px;" placeholder="Nuevo número">
+        <button onclick="cambiarNumero()">Cambiar</button>
+        <hr>
+        <button style="background: #ff4d4d; color: white;" onclick="borrarTodo()">RESET TOTAL</button>
+    </div>
+
+    <script>
+        // --- CARGA DE DATOS ---
+        let nombre = localStorage.getItem("nombreJugador") || "Viajero";
+        let magia = localStorage.getItem("magiaJugador") || "Ninguna";
+        let puntos = parseInt(localStorage.getItem("puntosJugador")) || 0;
+        let numero = localStorage.getItem("numeroAventurero") || "000";
+        let titulo = localStorage.getItem("tituloJugador") || "Aventurero del Gremio";
+        let animal = localStorage.getItem("mascotaEquipada") || "Ninguna";
+        let monedas = parseInt(localStorage.getItem("monedasJugador")) || 0;
+
+        // --- LÓGICA DE RANGO Y EXP ---
+        function calcularRango() {
+            let r = "F";
+            if(puntos >= 35) r = "E";
+            if(puntos >= 50) r = "D";
+            if(puntos >= 65) r = "C";
+            if(puntos >= 80) r = "B";
+            if(puntos >= 95) r = "A";
+            if(puntos >= 110) r = "S";
+            return r;
+        }
+
+        let rango = calcularRango();
+        let rangos = ["F", "E", "D", "C", "B", "A", "S"];
+        let limites = [0, 35, 50, 65, 80, 95, 110];
+        let indice = rangos.indexOf(rango);
+        
+        document.getElementById("rangoActual").textContent = rango;
+        document.getElementById("rangoSiguiente").textContent = rangos[indice + 1] || "MAX";
+
+        let progreso = 100;
+        if (indice < limites.length - 1) {
+            let inicio = limites[indice];
+            let fin = limites[indice + 1];
+            progreso = ((puntos - inicio) / (fin - inicio)) * 100;
+        }
+        document.getElementById("barraExp").style.width = progreso + "%";
+
+        // --- ROL ---
+        let rol = "Especialista";
+        if (["Fuego", "Rayo"].includes(magia)) rol = "Atacante";
+        if (["Agua", "Luz"].includes(magia)) rol = "Soporte";
+        if (["Tierra", "Hielo"].includes(magia)) rol = "Defensor";
+
+        // --- MOSTRAR DATOS ---
+        document.getElementById("nombreJugador").textContent = nombre;
+        document.getElementById("nombre").textContent = nombre;
+        document.getElementById("magia").textContent = magia;
+        document.getElementById("numero").textContent = numero;
+        document.getElementById("rango").textContent = rango;
+        document.getElementById("rol").textContent = rol;
+        document.getElementById("titulo").textContent = titulo;
+        document.getElementById("animal").textContent = animal;
+        document.getElementById("monedas").textContent = monedas;
+
+        // --- SISTEMA DE CÓDIGOS ---
+        function canjearCodigo() {
+            let codigo = document.getElementById("codigo").value.trim();
+            let inventarioTitulos = JSON.parse(localStorage.getItem("inventarioTitulos")) || [];
+
+            function darTitulo(t) {
+                if (!inventarioTitulos.includes(t)) inventarioTitulos.push(t);
+                localStorage.setItem("inventarioTitulos", JSON.stringify(inventarioTitulos));
+                localStorage.setItem("tituloJugador", t);
+                document.getElementById("titulo").textContent = t;
+            }
+
+            if (codigo === "Rey_demonio_Rapman830") {
+                if (localStorage.getItem("codigoReyDemonioUsado")) return alert("Ya usado.");
+                monedas += 1000000000;
+                localStorage.setItem("monedasJugador", monedas);
+                localStorage.setItem("codigoReyDemonioUsado", "si");
+                darTitulo("Rey Demonio");
+                alert("🔥 Bienvenido Rey Demonio 🔥");
+                location.reload();
+            } 
+            else if (codigo === "ADD_DEMONI") {
+                if (localStorage.getItem("codigoAddDemoni") === "si") return alert("Ya eres Administrador.");
+                monedas += 100000;
+                localStorage.setItem("monedasJugador", monedas);
+                localStorage.setItem("codigoAddDemoni", "si");
+                darTitulo("ADD Demonio");
+                alert("Bienvenido Al Grupo De Administradores");
+                location.reload(); 
+            }
+            else if (codigo === "Segunda_vida") {
+                if(confirm("¿Reiniciar aventura?")) { localStorage.clear(); location.href="index.html"; }
+            }
+            else {
+                alert("Código inválido.");
+            }
+        }
+
+        // --- PANEL DE COMANDOS (ADMIN) ---
+        function inicializarAdmin() {
+            const haUsadoCodigo = localStorage.getItem("codigoAddDemoni");
+            const panelVisible = localStorage.getItem("adminPanelVisible");
+            
+            if (haUsadoCodigo === "si") {
+                document.getElementById("botonComandos").style.display = "block";
+                if (panelVisible === "true") {
+                    document.getElementById("panelComandos").style.display = "block";
+                }
+            }
+        }
+
+        function abrirComandos() {
+            let panel = document.getElementById("panelComandos");
+            if (panel.style.display === "block") {
+                panel.style.display = "none";
+                localStorage.setItem("adminPanelVisible", "false");
+            } else {
+                panel.style.display = "block";
+                localStorage.setItem("adminPanelVisible", "true");
+            }
+        }
+
+        function darMonedas(cant) {
+            let m = (parseInt(localStorage.getItem("monedasJugador")) || 0) + cant;
+            localStorage.setItem("monedasJugador", m);
+            document.getElementById("monedas").textContent = m;
+        }
+
+        function cambiarRango(r) {
+            let pts = { 'F':0, 'E':35, 'D':50, 'C':65, 'B':80, 'A':95, 'S':110 };
+            localStorage.setItem("puntosJugador", pts[r]);
+            location.reload();
+        }
+
+        function cambiarMagia(m) {
+            localStorage.setItem("magiaJugador", m);
+            location.reload();
+        }
+
+        function cambiarNumero() {
+            let n = document.getElementById("nuevoNumero").value;
+            if(n) { localStorage.setItem("numeroAventurero", n); location.reload(); }
+        }
+
+        function borrarTodo() {
+            if(confirm("¿Borrar TODO?")) { localStorage.clear(); location.reload(); }
+        }
+
+        inicializarAdmin();
+    </script>
 </body>
 </html>

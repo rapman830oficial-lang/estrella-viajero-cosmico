@@ -313,18 +313,30 @@ window.location.href="examen2.html";
 
 });
 
-/* MUSICA DEL EXAMEN */
+/* MUSICA DEL EXAMEN (Continua) */
 
 window.addEventListener("load", function(){
 
-let musica = document.getElementById("musicaExamen");
+    let musica = document.getElementById("musicaExamen");
 
-if(musica){
-musica.volume = 0.6;
-musica.play().catch(()=>{});
-}
+    if(musica){
+        musica.volume = 0.6;
+        
+        // 1. Recuperamos el tiempo donde se quedó la canción en la página anterior
+        let tiempoGuardado = localStorage.getItem("tiempoMusica") || 0;
+        musica.currentTime = parseFloat(tiempoGuardado);
+        
+        musica.play().catch(()=>{ 
+            console.log("El navegador requiere interacción para reproducir el audio."); 
+        });
 
+        // 2. Guardamos el segundo actual cada 500ms para no perder el ritmo
+        setInterval(() => {
+            localStorage.setItem("tiempoMusica", musica.currentTime);
+        }, 500);
+    }
 });
+
 
 function sonidoClick(){
 
